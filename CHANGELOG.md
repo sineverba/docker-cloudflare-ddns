@@ -4,6 +4,7 @@
 + Promisify getZoneId
 + Add Winston logger
 + Rename tests
++ Add cron
 
 ## 0.1.0
 + First version - forked
