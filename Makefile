@@ -4,6 +4,9 @@ IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
 APP_VERSION=0.1.0
 
+sonar:
+	docker-compose up sonarscanner
+
 build:
 	docker build --tag $(IMAGE_NAME):$(APP_VERSION) --tag $(IMAGE_NAME):latest .
 

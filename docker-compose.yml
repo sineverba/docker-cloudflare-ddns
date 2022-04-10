@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  sonarscanner:
+    image: sonarsource/sonar-scanner-cli:4.6
+    container_name: docker-cloudflare-ddns-sonarscanner
+    volumes:
+      - ./:/usr/src
+    environment:
+      - SONAR_HOST_URL=${SONAR_HOST_URL}
+      - SONAR_LOGIN=${SONAR_LOGIN}
+    networks:
+      - docker-cloudflare-ddns
+
+  
+networks:
+  docker-cloudflare-ddns:
+    name: docker-cloudflare-ddns
+    driver: bridge

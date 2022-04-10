@@ -30,8 +30,8 @@ export default class App {
      * @returns 
      */
     getZoneId(zones, name) {
-        const zone = zones.filter(zone => zone.name === name);
-        return zone[0].id;
+        const filteredZone = zones.filter(zone => zone.name === name);
+        return filteredZone[0].id;
     }
 
 }
