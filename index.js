@@ -4,7 +4,10 @@ import App from "./src/App.js";
 const app = new App();
 
 const ip = await getPublicIp();
-console.log(ip);
+console.log("===> Got current public ip as ===>", ip);
+
+const zoneId = await getZoneId();
+console.log("===> Got zone id as ===>", zoneId);
 //update();
 
 
@@ -18,11 +21,13 @@ async function getPublicIp() {
     });
 }
 
-function update() {
-    app.browseZones()
+async function getZoneId() {
+    return new Promise((resolve, reject) => {
+        app.browseZones()
         .then(zones => app.getZoneId(zones.result, process.env.ZONE))
-        .then(zoneId => console.log(zoneId))
+        .then(zoneId => resolve(zoneId))
         .catch(err => {
             console.log(err)
         });
+    });
 }
