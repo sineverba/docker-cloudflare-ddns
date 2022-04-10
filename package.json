@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest -o"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "author": "sineverba",
   "license": "MIT",
