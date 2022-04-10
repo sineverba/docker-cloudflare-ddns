@@ -3,6 +3,7 @@
 + Get public IP
 + Promisify getZoneId
 + Add Winston logger
++ Rename tests
 
 ## 0.1.0
 + First version - forked
