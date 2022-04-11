@@ -1,4 +1,5 @@
 import App from "../App.js";
+import nock from "nock";
 
 const zones = {
     "success": true,
@@ -261,6 +262,21 @@ describe('Test Cloudflare class support', () => {
         };
         expect(app.isIpDifferent("192.168.1.1", subdomain)).toBeFalsy();
     });
+
+
+    it('Test browse zones return', async () => {
+        nock("https://api.cloudflare.com")
+            .defaultReplyHeaders({
+                'access-control-allow-origin': '*',
+                'access-control-allow-credentials': 'true'
+            })
+            .get("/client/v4/zones?")
+            .reply(200, zones);
+        const app = new App();
+        const data = await app.browseZones();
+        expect(data).toStrictEqual(zones);
+    });
+
 
 
 });
