@@ -264,7 +264,7 @@ describe('Test Cloudflare class support', () => {
     });
 
 
-    it('Test browse zones return', async () => {
+    it('Test browse zones return zones', async () => {
         nock("https://api.cloudflare.com")
             .defaultReplyHeaders({
                 'access-control-allow-origin': '*',
@@ -275,6 +275,19 @@ describe('Test Cloudflare class support', () => {
         const app = new App();
         const data = await app.browseZones();
         expect(data).toStrictEqual(zones);
+    });
+
+    it('Test browse zones return dnsRecords', async () => {
+        nock("https://api.cloudflare.com")
+            .defaultReplyHeaders({
+                'access-control-allow-origin': '*',
+                'access-control-allow-credentials': 'true'
+            })
+            .get("/client/v4/zones/abcde123456/dns_records?")
+            .reply(200, dnsRecords);
+        const app = new App();
+        const data = await app.browseDNSRecords("abcde123456");
+        expect(data).toStrictEqual(dnsRecords);
     });
 
 
