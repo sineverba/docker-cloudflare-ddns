@@ -42,7 +42,7 @@ blocks:
       prologue:
         commands:
           - cache restore
-          - CI=true npm run coverage
+          - CI=true npm run test
       jobs:
         - name: Coverage
           commands:
