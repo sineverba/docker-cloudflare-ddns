@@ -1,4 +1,7 @@
-# 0.2.0
+# 0.2.1
++ Fix yaml
+
+## 0.2.0
 + Add Docker
 + Get public IP
 + Promisify getZoneId
