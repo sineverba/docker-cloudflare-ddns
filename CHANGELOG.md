@@ -1,4 +1,7 @@
-# 0.2.2
+# Next version
++ Check if public IP is different from DNS record
+
+## 0.2.2
 + Fix yaml
 
 ## 0.2.1

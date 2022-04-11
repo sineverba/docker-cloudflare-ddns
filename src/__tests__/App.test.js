@@ -240,5 +240,27 @@ describe('Test Cloudflare class support', () => {
         expect(app.getSubdomain(dnsRecords.result, "example.com", "subdomain")).toStrictEqual(expectedSubDomain);
     });
 
+    it('Test can return true if public ip is different from IP stored in cloudflare', () => {
+        const app = new App();
+        const subdomain = {
+            "id": "58787879487569e0b59",
+            "type": "A",
+            "name": "subdomain.example.com",
+            "content": "192.168.1.1",
+        };
+        expect(app.isIpDifferent("10.20.30.40", subdomain)).toBeTruthy();
+    });
+
+    it('Test can return false if public ip is NOT different from IP stored in cloudflare', () => {
+        const app = new App();
+        const subdomain = {
+            "id": "58787879487569e0b59",
+            "type": "A",
+            "name": "subdomain.example.com",
+            "content": "192.168.1.1",
+        };
+        expect(app.isIpDifferent("192.168.1.1", subdomain)).toBeFalsy();
+    });
+
 
 });
