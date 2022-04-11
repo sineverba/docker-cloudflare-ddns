@@ -10,8 +10,17 @@ global_job_config:
     - name: ACCESS_TOKENS
   prologue:
     commands:
-      - checkout
-      - npm install -g npm@8.6.0
+      - echo $DOCKER_TOKEN | docker login --username "$DOCKER_USERNAME" --password-stdin
+
+  env_vars:
+    - name: DOCKER_USERNAME
+      value: sineverba
+    - name: DOCKER_IMAGE
+      value: cloudflare-ddns
+    - name: BUILDX_VERSION
+      value: 0.8.2
+    - name: BINFMT_VERSION
+      value: qemu-v6.2.0-26
 
 blocks:
 
