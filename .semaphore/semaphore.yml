@@ -46,7 +46,7 @@ blocks:
       jobs:
         - name: Coverage
           commands:
-            - export COVERALLS_REPO_TOKEN=$COVERALLS_CLOUDFLARE_DDNS
+            - export COVERALLS_REPO_TOKEN=$COVERALLS_DOCKER_CLOUDFLARE_DDNS
             - cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
         - name: Sonarcloud
           commands:
