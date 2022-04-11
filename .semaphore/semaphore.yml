@@ -1,0 +1,59 @@
+version: v1.0
+name: Test
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+    
+global_job_config:
+  secrets:
+    - name: ACCESS_TOKENS
+  prologue:
+    commands:
+      - checkout
+      - npm install -g npm@8.6.0
+
+blocks:
+
+  - name: Install dependencies
+    skip:
+      when: "tag =~ '.*'"
+    task:
+      jobs:
+        - name: 'Install'
+          commands:
+            - npm ci
+            - cache store
+
+  - name: Test
+    skip:
+      when: "tag =~ '.*'"
+    task:
+      jobs:
+        - name: Test
+          commands:
+            - cache restore
+            - CI=true npm run test
+
+  - name: Coverage
+    skip:
+      when: "tag =~ '.*'"
+    task:
+      prologue:
+        commands:
+          - cache restore
+          - CI=true npm run test
+      jobs:
+        - name: Coverage
+          commands:
+            - export COVERALLS_REPO_TOKEN=$COVERALLS_DOCKER_CLOUDFLARE_DDNS
+            - cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
+        - name: Sonarcloud
+          commands:
+            - docker run --rm -e SONAR_HOST_URL="https://sonarcloud.io" -e SONAR_LOGIN=$SONAR_TOKEN -v "/home/semaphore/docker-cloudflare-ddns:/usr/src" sonarsource/sonar-scanner-cli:4.6
+          
+promotions:
+  - name: Deploy
+    pipeline_file: build-deploy.yml
+    auto_promote:
+      when: "result = 'passed' and tag =~ '.*'"

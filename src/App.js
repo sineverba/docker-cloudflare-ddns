@@ -21,6 +21,14 @@ export default class App {
         return cf.zones.browse();
     }
 
+    browseDNSRecords(id) {
+        var cf = new Cloudflare({
+            token: this.getToken()
+        });
+
+        return cf.dnsRecords.browse(id);
+    }
+
     /**
      * 
      * Extract the id for the zone of interest
@@ -30,8 +38,24 @@ export default class App {
      * @returns 
      */
     getZoneId(zones, name) {
-        const zone = zones.filter(zone => zone.name === name);
-        return zone[0].id;
+        const filteredZone = zones.filter(zone => zone.name === name);
+        return filteredZone[0].id;
+    }
+
+    /**
+     * Extract the subdomain from the dns record list
+     */
+    getSubdomain(dnsRecords, domain, subdomain) {
+        const filteredSubdomain = dnsRecords
+            .filter(dns => dns.name === `${subdomain}.${domain}`)
+            .map(record => ({
+                id: record.id,
+                type: record.type,
+                name: record.name,
+                content: record.content
+            }));
+            
+        return filteredSubdomain[0];
     }
 
 }

@@ -1,9 +1,18 @@
 Docker CloudFlare DDNS
 ======================
 
+!!! __CAUTION__ work in progress !!!
+
 > This Docker image will allow you to use the free [CloudFlare DNS Service](https://www.cloudflare.com/dns/) as a Dynamic DNS Provider ([DDNS](https://en.wikipedia.org/wiki/Dynamic_DNS)).
 
 CREDITS: Forked from [https://github.com/oznu/docker-cloudflare-ddns](https://github.com/oznu/docker-cloudflare-ddns).
+
+| CI/CD | Link |
+| ----- | ---- |
+| Circle CI | [![CircleCI](https://circleci.com/gh/sineverba/docker-cloudflare-ddns.svg?style=svg)](https://circleci.com/gh/sineverba/docker-cloudflare-ddns) |
+| Semaphore CI | [![Build Status](https://sineverba.semaphoreci.com/badges/docker-cloudflare-ddns.svg)](https://sineverba.semaphoreci.com/projects/docker-cloudflare-ddns) |
+| Sonarqube | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=docker-cloudflare-ddns&metric=alert_status)](https://sonarcloud.io/dashboard?id=docker-cloudflare-ddns) |
+| Coveralls | [![Coverage Status](https://coveralls.io/repos/github/sineverba/docker-cloudflare-ddns/badge.svg?branch=master)](https://coveralls.io/github/sineverba/docker-cloudflare-ddns?branch=master) |
 
 Available architectures:
 
@@ -26,10 +35,10 @@ If you prefer to use [Docker Compose](https://docs.docker.com/compose/):
 version: '3.8'
 services:
   cloudflare-ddns:
-    image: sineverba/cloudflare-ddns:0.1.0
+    image: sineverba/cloudflare-ddns:0.2.0
     restart: always
     environment:
-      - API_KEY=xxxxxxx
+      - CF_TOKEN=xxxxxxx
       - ZONE=example.com
       - SUBDOMAIN=subdomain
       - PROXIED=false
@@ -39,7 +48,7 @@ services:
 ## Parameters
 
 * `--restart=always` - ensure the container restarts automatically after host reboot.
-* `-e API_KEY` - Your CloudFlare scoped API token. See the [Creating a Cloudflare API token](#creating-a-cloudflare-api-token) below. **Required**
+* `-e CF_TOKEN` - Your CloudFlare scoped API token. See the [Creating a Cloudflare API token](#creating-a-cloudflare-api-token) below. **Required**
 * `-e ZONE` - The DNS zone that DDNS updates should be applied to. **Required**
 * `-e SUBDOMAIN` - A subdomain of the `ZONE` to write DNS changes to. If this is not supplied the root zone will be used.
 * `-e PROXIED` - Set to `true` to make traffic go through the CloudFlare CDN. Defaults to `false`.
@@ -57,4 +66,4 @@ To create a CloudFlare API token for your DNS zone go to https://dash.cloudflare
     * Zone - DNS - Edit
 5. Set the zone resources to:
     * Include - All zones
-6. Complete the wizard and copy the generated token into the `API_KEY` variable for the container
+6. Complete the wizard and copy the generated token into the `CF_TOKEN` variable for the container
