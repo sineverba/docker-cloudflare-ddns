@@ -29,12 +29,28 @@ const logger = winston.createLogger({
 
 const app = new App();
 
-const ip = await getPublicIp();
-logger.info("Got public IP as %s", ip);
+//const ip = await getPublicIp();
+//logger.info("Got public IP as %s", ip);
 
 const zoneId = await getZoneId();
-logger.debug("Got zone ID as %s", zoneId);
-//update();
+logger.debug("");
+logger.debug("=============================");
+logger.debug("");
+logger.debug("Got zone ID");
+logger.debug("%s", zoneId);
+logger.debug("");
+logger.debug("=============================");
+logger.debug("");
+
+const subdomain = await getSubdomain(zoneId);
+logger.debug("");
+logger.debug("=============================");
+logger.debug("");
+logger.debug("Got subdomain");
+logger.debug("%s", subdomain);
+logger.debug("");
+logger.debug("=============================");
+logger.debug("");
 
 
 async function getPublicIp() {
@@ -55,5 +71,13 @@ async function getZoneId() {
         .catch(err => {
             console.log(err)
         });
+    });
+}
+
+async function getSubdomain(zoneId) {
+    return new Promise((resolve, reject) => {
+        app.browseDNSRecords(zoneId)
+        .then(dnsRecords => app.getSubdomain(dnsRecords.result, process.env.ZONE, process.env.SUBDOMAIN))
+        .then(subdomain => resolve(subdomain));
     });
 }
