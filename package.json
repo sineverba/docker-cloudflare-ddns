@@ -1,11 +1,12 @@
 {
   "name": "cloudflare-ddns",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "App to use Cloudflare as DDNS",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "debug": "NODE_OPTIONS=--experimental-vm-modules DEBUG=nock.* jest"
   },
   "author": "sineverba",
   "license": "MIT",
@@ -16,7 +17,8 @@
   },
   "devDependencies": {
     "coveralls": "^3.1.1",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "nock": "^13.2.4"
   },
   "jest": {
     "collectCoverage": true

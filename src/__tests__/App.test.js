@@ -1,4 +1,5 @@
 import App from "../App.js";
+import nock from "nock";
 
 const zones = {
     "success": true,
@@ -239,6 +240,56 @@ describe('Test Cloudflare class support', () => {
         };
         expect(app.getSubdomain(dnsRecords.result, "example.com", "subdomain")).toStrictEqual(expectedSubDomain);
     });
+
+    it('Test can return true if public ip is different from IP stored in cloudflare', () => {
+        const app = new App();
+        const subdomain = {
+            "id": "58787879487569e0b59",
+            "type": "A",
+            "name": "subdomain.example.com",
+            "content": "192.168.1.1",
+        };
+        expect(app.isIpDifferent("10.20.30.40", subdomain)).toBeTruthy();
+    });
+
+    it('Test can return false if public ip is NOT different from IP stored in cloudflare', () => {
+        const app = new App();
+        const subdomain = {
+            "id": "58787879487569e0b59",
+            "type": "A",
+            "name": "subdomain.example.com",
+            "content": "192.168.1.1",
+        };
+        expect(app.isIpDifferent("192.168.1.1", subdomain)).toBeFalsy();
+    });
+
+
+    it('Test browse zones return zones', async () => {
+        nock("https://api.cloudflare.com")
+            .defaultReplyHeaders({
+                'access-control-allow-origin': '*',
+                'access-control-allow-credentials': 'true'
+            })
+            .get("/client/v4/zones?")
+            .reply(200, zones);
+        const app = new App();
+        const data = await app.browseZones();
+        expect(data).toStrictEqual(zones);
+    });
+
+    it('Test browse zones return dnsRecords', async () => {
+        nock("https://api.cloudflare.com")
+            .defaultReplyHeaders({
+                'access-control-allow-origin': '*',
+                'access-control-allow-credentials': 'true'
+            })
+            .get("/client/v4/zones/abcde123456/dns_records?")
+            .reply(200, dnsRecords);
+        const app = new App();
+        const data = await app.browseDNSRecords("abcde123456");
+        expect(data).toStrictEqual(dnsRecords);
+    });
+
 
 
 });
