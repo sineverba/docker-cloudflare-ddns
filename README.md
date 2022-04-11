@@ -35,7 +35,7 @@ If you prefer to use [Docker Compose](https://docs.docker.com/compose/):
 version: '3.8'
 services:
   cloudflare-ddns:
-    image: sineverba/cloudflare-ddns:0.1.0
+    image: sineverba/cloudflare-ddns:0.2.0
     restart: always
     environment:
       - CF_TOKEN=xxxxxxx
