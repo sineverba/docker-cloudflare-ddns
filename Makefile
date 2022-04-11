@@ -2,7 +2,7 @@ include .env
 
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
-APP_VERSION=0.2.2
+APP_VERSION=0.3.0
 
 sonar:
 	docker-compose up sonarscanner
