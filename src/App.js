@@ -62,10 +62,7 @@ export default class App {
      * Check if IP is different
      */
     isIpDifferent(ip, subdomain) {
-        if (ip.toString() !== subdomain.content.toString()) {
-            return true;
-        }
-        return false;
+        return ip.toString() !== subdomain.content.toString();
     }
 
 }

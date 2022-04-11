@@ -1,6 +1,7 @@
 # Next version
 + Check if public IP is different from DNS record
 + Add browse zones test
++ Fix code smells
 
 ## 0.2.2
 + Fix yaml
