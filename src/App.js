@@ -58,4 +58,14 @@ export default class App {
         return filteredSubdomain[0];
     }
 
+    /**
+     * Check if IP is different
+     */
+    isIpDifferent(ip, subdomain) {
+        if (ip.toString() !== subdomain.content.toString()) {
+            return true;
+        }
+        return false;
+    }
+
 }
