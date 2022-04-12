@@ -7,6 +7,11 @@ APP_VERSION=0.3.0
 sonar:
 	docker-compose up sonarscanner
 
+upgrade:
+	npx ncu -u
+	npm install
+	npm audit fix
+
 build:
 	docker build --tag $(IMAGE_NAME):$(APP_VERSION) --tag $(IMAGE_NAME):latest .
 

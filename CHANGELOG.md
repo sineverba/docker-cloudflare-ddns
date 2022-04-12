@@ -1,4 +1,7 @@
-# 0.3.0
+# Next version
++ Upgrade dependencies
+
+## 0.3.0
 + Check if public IP is different from DNS record
 + Add browse zones test
 + Fix code smells
