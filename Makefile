@@ -20,7 +20,27 @@ test:
 	docker run -it --rm --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) -v | grep "v16.14.2"
 
 spin:
-	docker run -it --rm --name $(CONTAINER_NAME) -e CF_TOKEN=${CF_TOKEN} -e ZONE=${ZONE} -e SUBDOMAIN=subdomain -e PROXIED=${PROXIED} $(IMAGE_NAME):$(APP_VERSION)
+	docker run -it --rm --name $(CONTAINER_NAME) \
+	-e CF_TOKEN=${CF_TOKEN} \
+	-e ZONE=${ZONE} \
+	-e SUBDOMAIN=${SUBDOMAIN} \
+	-e PROXIED=${PROXIED} \
+	$(IMAGE_NAME):$(APP_VERSION)
+
+detached:
+	docker run -d --name $(CONTAINER_NAME) \
+	-e CF_TOKEN=${CF_TOKEN} \
+	-e ZONE=${ZONE} \
+	-e SUBDOMAIN=${SUBDOMAIN} \
+	-e PROXIED=${PROXIED} \
+	$(IMAGE_NAME):$(APP_VERSION)
+
+logs:
+	docker container logs -f $(CONTAINER_NAME)
+
+stop:
+	docker container stop $(CONTAINER_NAME)
+	docker container rm $(CONTAINER_NAME)
 
 destroy:
 	docker image rm $(IMAGE_NAME):$(APP_VERSION) $(IMAGE_NAME):latest

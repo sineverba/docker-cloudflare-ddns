@@ -29,8 +29,16 @@ const logger = winston.createLogger({
 
 const app = new App();
 
-//const ip = await getPublicIp();
-//logger.info("Got public IP as %s", ip);
+const ip = await getPublicIp();
+logger.info("");
+logger.info("=============================");
+logger.info("");
+logger.info("Got public IP");
+logger.info("%s", ip);
+logger.info("");
+logger.info("=============================");
+logger.info("");
+
 
 const zoneId = await getZoneId();
 logger.debug("");
@@ -51,6 +59,43 @@ logger.debug("%s", subdomain);
 logger.debug("");
 logger.debug("=============================");
 logger.debug("");
+
+if (app.isIpDifferent(ip, subdomain)) {
+    const record = {
+        content: ip,
+        type: "A",
+        name: process.env.SUBDOMAIN,
+        proxied: process.env.PROXIED && process.env.PROXIED === "true" ? true : false
+    };
+    logger.info("");
+    logger.info("=============================");
+    logger.info("");
+    logger.info("Updating record");
+    logger.debug("%s", record);
+    logger.info("");
+    logger.info("=============================");
+    logger.info("");
+
+    const updatedRecord = await updateRecord(zoneId, subdomain.id, record);
+    if (updateRecord) {
+        logger.info("");
+        logger.info("=============================");
+        logger.info("");
+        logger.info("Update succeeded");
+        logger.info("");
+        logger.info("=============================");
+        logger.info("");
+    }
+
+} else {
+    logger.info("");
+    logger.info("=============================");
+    logger.info("");
+    logger.info("No update is required");
+    logger.info("");
+    logger.info("=============================");
+    logger.info("");
+}
 
 
 async function getPublicIp() {
@@ -79,5 +124,12 @@ async function getSubdomain(zoneId) {
         app.browseDNSRecords(zoneId)
         .then(dnsRecords => app.getSubdomain(dnsRecords.result, process.env.ZONE, process.env.SUBDOMAIN))
         .then(subdomain => resolve(subdomain));
+    });
+}
+
+async function updateRecord(zoneId, subdomainId, record) {
+    return new Promise((resolve, reject) => {
+        app.updateRecord(zoneId, subdomainId, record)
+        .then(result => resolve(result.success));
     });
 }
