@@ -1,6 +1,7 @@
 # Next version
 + Upgrade dependencies
 + Add update DNS
++ Refactor instructions and logger
 
 ## 0.3.0
 + Check if public IP is different from DNS record
