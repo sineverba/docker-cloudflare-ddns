@@ -12,17 +12,17 @@ function transform(info, opts) {
 function utilFormatter() { return {transform}; }
 
 const logger = winston.createLogger({
-    level: process.env.DEBUG_LEVEL || "info",
+    level: process.env.LOG_LEVEL || "debug",
     format: winston.format.combine(
         winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}),
         utilFormatter(),
         winston.format.colorize(),
-        winston.format.printf(({level, message, label, timestamp}) => `${timestamp} ${label || '-'} ${level}: ${message}`),
+        winston.format.printf(({level, message, label, timestamp}) => `\n==========\n${timestamp} ${label || '-'} ${level}: ${message}\n==========\n`)
       ),
       transports: [
         new winston.transports.Stream({
           stream: process.stderr,
-          level: process.env.DEBUG_LEVEL || "info",
+          level: process.env.LOG_LEVEL || "debug",
         })
       ],
 });
@@ -30,35 +30,13 @@ const logger = winston.createLogger({
 const app = new App();
 
 const ip = await getPublicIp();
-logger.info("");
-logger.info("=============================");
-logger.info("");
-logger.info("Got public IP");
-logger.info("%s", ip);
-logger.info("");
-logger.info("=============================");
-logger.info("");
-
+logger.info("Got public IP: %s", ip);
 
 const zoneId = await getZoneId();
-logger.debug("");
-logger.debug("=============================");
-logger.debug("");
-logger.debug("Got zone ID");
-logger.debug("%s", zoneId);
-logger.debug("");
-logger.debug("=============================");
-logger.debug("");
+logger.debug("Got zone ID: %s", zoneId);
 
 const subdomain = await getSubdomain(zoneId);
-logger.debug("");
-logger.debug("=============================");
-logger.debug("");
-logger.debug("Got subdomain");
-logger.debug("%s", subdomain);
-logger.debug("");
-logger.debug("=============================");
-logger.debug("");
+logger.debug("Got subdomain: %s", subdomain);
 
 if (app.isIpDifferent(ip, subdomain)) {
     const record = {
@@ -67,34 +45,16 @@ if (app.isIpDifferent(ip, subdomain)) {
         name: process.env.SUBDOMAIN,
         proxied: process.env.PROXIED && process.env.PROXIED === "true" ? true : false
     };
-    logger.info("");
-    logger.info("=============================");
-    logger.info("");
     logger.info("Updating record");
     logger.debug("%s", record);
-    logger.info("");
-    logger.info("=============================");
-    logger.info("");
 
     const updatedRecord = await updateRecord(zoneId, subdomain.id, record);
     if (updateRecord) {
-        logger.info("");
-        logger.info("=============================");
-        logger.info("");
         logger.info("Update succeeded");
-        logger.info("");
-        logger.info("=============================");
-        logger.info("");
     }
 
 } else {
-    logger.info("");
-    logger.info("=============================");
-    logger.info("");
     logger.info("No update is required");
-    logger.info("");
-    logger.info("=============================");
-    logger.info("");
 }
 
 
