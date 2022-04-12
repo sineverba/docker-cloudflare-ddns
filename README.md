@@ -31,7 +31,14 @@ Available architectures:
 
 Quick Setup:
 
-__WORK IN PROGRESS__
+```shell
+docker run -d --name cloudflare-ddns \
+	-e CF_TOKEN=${CF_TOKEN} \
+	-e ZONE=${ZONE} \
+	-e SUBDOMAIN=${SUBDOMAIN} \
+	-e PROXIED=${PROXIED} \
+	sineverba/cloudflare-ddns:0.3.0
+```
 
 ## Docker Compose
 
@@ -43,7 +50,7 @@ If you prefer to use [Docker Compose](https://docs.docker.com/compose/):
 version: '3.8'
 services:
   cloudflare-ddns:
-    image: sineverba/cloudflare-ddns:0.2.2
+    image: sineverba/cloudflare-ddns:0.3.0
     restart: always
     environment:
       - CF_TOKEN=xxxxxxx
