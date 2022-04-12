@@ -21,13 +21,21 @@ Available architectures:
 + linux/arm/v6
 + linux/arm/v7
 
+## Local start
+
++ Copy `.env.bak` in `.env`
++ Compile with your data
++ Type `node index.js` from the root folder
+
 ## Docker
 
 Quick Setup:
 
-__WORK IN PROGRESS_:
+__WORK IN PROGRESS__
 
 ## Docker Compose
+
+__WORK IN PROGRESS__
 
 If you prefer to use [Docker Compose](https://docs.docker.com/compose/):
 
