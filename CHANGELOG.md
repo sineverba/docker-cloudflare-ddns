@@ -3,6 +3,7 @@
 + Add update DNS
 + Refactor instructions and logger
 + Add handle root zone if subdomain is missing
++ Create subdomain if new
 
 ## 0.3.0
 + Check if public IP is different from DNS record
