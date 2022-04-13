@@ -1,5 +1,6 @@
 # Next version
 + Upgrade dependencies
++ Compact log
 
 ## 1.0.0
 + Upgrade dependencies
