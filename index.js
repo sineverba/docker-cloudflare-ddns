@@ -2,6 +2,7 @@ import * as http from 'http';
 import App from "./src/App.js";
 import * as winston from "winston";
 import * as util from "util";
+import { exit } from 'process';
 
 function transform(info, opts) {
     const args = info[Symbol.for('splat')];
@@ -38,23 +39,38 @@ logger.debug("Got zone ID: %s", zoneId);
 const subdomain = await getSubdomain(zoneId);
 logger.debug("Got subdomain: %s", subdomain);
 
-if (app.isIpDifferent(ip, subdomain)) {
-    const record = {
-        content: ip,
-        type: "A",
-        name: process.env.SUBDOMAIN ? process.env.SUBDOMAIN : "@",
-        proxied: process.env.PROXIED && process.env.PROXIED === "true" ? true : false
-    };
-    logger.info("Updating record");
-    logger.debug("%s", record);
+const record = {
+    content: ip,
+    type: "A",
+    name: process.env.SUBDOMAIN ? process.env.SUBDOMAIN : "@",
+    proxied: process.env.PROXIED && process.env.PROXIED === "true" ? true : false
+};
 
-    const updatedRecord = await updateRecord(zoneId, subdomain.id, record);
-    if (updateRecord) {
-        logger.info("Update succeeded");
+if (typeof subdomain === "undefined") {
+    
+    /**
+     * New subdomain, need to create it
+     */
+    const createdRecord = await createRecord(zoneId, record);
+    if (createdRecord) {
+        logger.info("Create new record %s succeeded", process.env.SUBDOMAIN ? process.env.SUBDOMAIN : "root");
+    }
+} else {
+
+    if (app.isIpDifferent(ip, subdomain)) {
+        
+        logger.info("Updating record");
+        logger.debug("%s", record);
+
+        const updatedRecord = await updateRecord(zoneId, subdomain.id, record);
+        if (updatedRecord) {
+            logger.info("Update succeeded");
+        }
+
+    } else {
+        logger.info("No update is required");
     }
 
-} else {
-    logger.info("No update is required");
 }
 
 
@@ -90,6 +106,13 @@ async function getSubdomain(zoneId) {
 async function updateRecord(zoneId, subdomainId, record) {
     return new Promise((resolve, reject) => {
         app.updateRecord(zoneId, subdomainId, record)
+        .then(result => resolve(result.success));
+    });
+}
+
+async function createRecord(zoneId, record) {
+    return new Promise((resolve, reject) => {
+        app.createRecord(zoneId, record)
         .then(result => resolve(result.success));
     });
 }

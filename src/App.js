@@ -37,6 +37,14 @@ export default class App {
         return cf.dnsRecords.edit(zoneId, subdomainId, record);
     }
 
+    createRecord(zoneId, record) {
+        var cf = new Cloudflare({
+            token: this.getToken()
+        });
+
+        return cf.dnsRecords.add(zoneId, record);
+    }
+
     /**
      * 
      * Extract the id for the zone of interest

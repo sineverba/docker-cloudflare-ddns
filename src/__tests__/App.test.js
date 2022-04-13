@@ -315,6 +315,20 @@ describe('Test Cloudflare class support', () => {
         expect(app.getSubdomain(dnsRecords.result, "example.com", "example.com")).toStrictEqual(expectedSubDomain);
     });
 
+    it('Test can create dns record', async () => {
+        const record = {content: "1.2.3.4", type: "A", name: "subdomains"};
+        nock("https://api.cloudflare.com")
+            .defaultReplyHeaders({
+                'access-control-allow-origin': '*',
+                'access-control-allow-credentials': 'true'
+            })
+            .post("/client/v4/zones/abcde123456/dns_records", record)
+            .reply(200, record);
+        const app = new App();
+        const data = await app.createRecord("abcde123456", record);
+        expect(data).toStrictEqual(record);
+    });
+
 
 
 });
