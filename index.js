@@ -42,7 +42,7 @@ if (app.isIpDifferent(ip, subdomain)) {
     const record = {
         content: ip,
         type: "A",
-        name: process.env.SUBDOMAIN,
+        name: process.env.SUBDOMAIN ? process.env.SUBDOMAIN : "@",
         proxied: process.env.PROXIED && process.env.PROXIED === "true" ? true : false
     };
     logger.info("Updating record");
@@ -82,7 +82,7 @@ async function getZoneId() {
 async function getSubdomain(zoneId) {
     return new Promise((resolve, reject) => {
         app.browseDNSRecords(zoneId)
-        .then(dnsRecords => app.getSubdomain(dnsRecords.result, process.env.ZONE, process.env.SUBDOMAIN))
+        .then(dnsRecords => app.getSubdomain(dnsRecords.result, process.env.ZONE, process.env.SUBDOMAIN ? process.env.SUBDOMAIN : process.env.ZONE))
         .then(subdomain => resolve(subdomain));
     });
 }

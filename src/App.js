@@ -54,8 +54,16 @@ export default class App {
      * Extract the subdomain from the dns record list
      */
     getSubdomain(dnsRecords, domain, subdomain) {
+
+        /**
+         * If subdomain is equale to domain, we are looking for
+         * root zone.
+         * Else, we concatenate
+         */
+        const filter = domain === subdomain ? domain : `${subdomain}.${domain}`;
+
         const filteredSubdomain = dnsRecords
-            .filter(dns => dns.name === `${subdomain}.${domain}`)
+            .filter(dns => dns.name === filter)
             .map(record => ({
                 id: record.id,
                 type: record.type,

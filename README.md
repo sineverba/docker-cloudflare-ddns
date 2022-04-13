@@ -66,7 +66,7 @@ services:
 
 * `-e CF_TOKEN` - Your CloudFlare scoped API token. See the [Creating a Cloudflare API token](#creating-a-cloudflare-api-token) below. **Required**
 * `-e ZONE` - The DNS zone that DDNS updates should be applied to. **Required**
-* `-e SUBDOMAIN` - A subdomain of the `ZONE` to write DNS changes to. **Required**
+* `-e SUBDOMAIN` - A subdomain of the `ZONE` to write DNS changes to. If missing, root `ZONE` will be used.
 * `-e PROXIED` - Set to `true` to make traffic go through the CloudFlare CDN. Defaults to `false`.
 * `-e LOG_LEVEL` - Set to `debug` for more verbosity. Defaults to `info`.
 
