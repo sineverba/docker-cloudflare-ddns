@@ -304,6 +304,17 @@ describe('Test Cloudflare class support', () => {
         expect(data).toStrictEqual(record);
     });
 
+    it('Test can extract zone root record from dns records list if subdomain is missing', () => {
+        const app = new App();
+        const expectedSubDomain = {
+            "id": "372e67954025e0ba6aaa6d586b9e0b59",
+            "type": "A",
+            "name": "example.com",
+            "content": "198.51.100.4",
+        };
+        expect(app.getSubdomain(dnsRecords.result, "example.com", "example.com")).toStrictEqual(expectedSubDomain);
+    });
+
 
 
 });
