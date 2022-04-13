@@ -277,7 +277,7 @@ describe('Test Cloudflare class support', () => {
         expect(data).toStrictEqual(zones);
     });
 
-    it('Test browse zones return dnsRecords', async () => {
+    it('Test browse dnsRecords return dnsRecords', async () => {
         nock("https://api.cloudflare.com")
             .defaultReplyHeaders({
                 'access-control-allow-origin': '*',
@@ -288,6 +288,45 @@ describe('Test Cloudflare class support', () => {
         const app = new App();
         const data = await app.browseDNSRecords("abcde123456");
         expect(data).toStrictEqual(dnsRecords);
+    });
+
+    it('Test can update dns record', async () => {
+        const record = {content: "1.2.3.4", type: "A", name: "subdomains"};
+        nock("https://api.cloudflare.com")
+            .defaultReplyHeaders({
+                'access-control-allow-origin': '*',
+                'access-control-allow-credentials': 'true'
+            })
+            .put("/client/v4/zones/abcde123456/dns_records/9876qwerty", record)
+            .reply(200, record);
+        const app = new App();
+        const data = await app.updateRecord("abcde123456", "9876qwerty", record);
+        expect(data).toStrictEqual(record);
+    });
+
+    it('Test can extract zone root record from dns records list if subdomain is missing', () => {
+        const app = new App();
+        const expectedSubDomain = {
+            "id": "372e67954025e0ba6aaa6d586b9e0b59",
+            "type": "A",
+            "name": "example.com",
+            "content": "198.51.100.4",
+        };
+        expect(app.getSubdomain(dnsRecords.result, "example.com", "example.com")).toStrictEqual(expectedSubDomain);
+    });
+
+    it('Test can create dns record', async () => {
+        const record = {content: "1.2.3.4", type: "A", name: "subdomains"};
+        nock("https://api.cloudflare.com")
+            .defaultReplyHeaders({
+                'access-control-allow-origin': '*',
+                'access-control-allow-credentials': 'true'
+            })
+            .post("/client/v4/zones/abcde123456/dns_records", record)
+            .reply(200, record);
+        const app = new App();
+        const data = await app.createRecord("abcde123456", record);
+        expect(data).toStrictEqual(record);
     });
 
 

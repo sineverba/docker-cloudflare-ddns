@@ -1,9 +1,9 @@
 Docker CloudFlare DDNS
 ======================
 
-!!! __CAUTION__ work in progress !!!
-
 > This Docker image will allow you to use the free [CloudFlare DNS Service](https://www.cloudflare.com/dns/) as a Dynamic DNS Provider ([DDNS](https://en.wikipedia.org/wiki/Dynamic_DNS)).
+
+Cron in Docker container run every 5 minutes.
 
 CREDITS: Forked from [https://github.com/oznu/docker-cloudflare-ddns](https://github.com/oznu/docker-cloudflare-ddns).
 
@@ -21,37 +21,54 @@ Available architectures:
 + linux/arm/v6
 + linux/arm/v7
 
+## Local start
+
++ Copy `.env.bak` in `.env`
++ Compile with your data
++ Type `node index.js` from the root folder
+
 ## Docker
 
 Quick Setup:
 
-__WORK IN PROGRESS_:
+```shell
+docker run -d --name cloudflare-ddns \
+	-e CF_TOKEN=${CF_TOKEN} \
+	-e ZONE=${ZONE} \
+	-e SUBDOMAIN=${SUBDOMAIN} \
+	-e PROXIED=${PROXIED} \
+    -e LOG_LEVEL=${LOG_LEVEL} \
+	sineverba/cloudflare-ddns:1.0.0
+```
 
 ## Docker Compose
 
-If you prefer to use [Docker Compose](https://docs.docker.com/compose/):
+If you prefer to use Docker Compose (and use `.env` file to mantain your data secret!):
 
 ```yml
 version: '3.8'
 services:
   cloudflare-ddns:
-    image: sineverba/cloudflare-ddns:0.2.2
-    restart: always
+    image: sineverba/cloudflare-ddns:1.0.0
+    restart: unless-stopped
+    env_file:
+      - ./.env
     environment:
-      - CF_TOKEN=xxxxxxx
-      - ZONE=example.com
-      - SUBDOMAIN=subdomain
-      - PROXIED=false
+      - CF_TOKEN=${CF_TOKEN}
+      - ZONE=${ZONE}
+      - SUBDOMAIN=${SUBDOMAIN}
+      - PROXIED=${PROXIED}
+      - LOG_LEVEL=${LOG_LEVEL}
 ```
 
 
 ## Parameters
 
-* `--restart=always` - ensure the container restarts automatically after host reboot.
 * `-e CF_TOKEN` - Your CloudFlare scoped API token. See the [Creating a Cloudflare API token](#creating-a-cloudflare-api-token) below. **Required**
 * `-e ZONE` - The DNS zone that DDNS updates should be applied to. **Required**
-* `-e SUBDOMAIN` - A subdomain of the `ZONE` to write DNS changes to. If this is not supplied the root zone will be used.
+* `-e SUBDOMAIN` - A subdomain of the `ZONE` to write DNS changes to. If missing, root `ZONE` will be used. If it is not present in Cloudflare, it will be created.
 * `-e PROXIED` - Set to `true` to make traffic go through the CloudFlare CDN. Defaults to `false`.
+* `-e LOG_LEVEL` - Set to `debug` for more verbosity. Defaults to `info`.
 
 ## Creating a Cloudflare API token
 

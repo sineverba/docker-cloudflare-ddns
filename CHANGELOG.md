@@ -1,4 +1,11 @@
-# 0.3.0
+# 1.0.0
++ Upgrade dependencies
++ Add update DNS
++ Refactor instructions and logger
++ Add handle root zone if subdomain is missing
++ Create subdomain if new
+
+## 0.3.0
 + Check if public IP is different from DNS record
 + Add browse zones test
 + Fix code smells

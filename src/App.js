@@ -29,6 +29,22 @@ export default class App {
         return cf.dnsRecords.browse(id);
     }
 
+    updateRecord(zoneId, subdomainId, record) {
+        var cf = new Cloudflare({
+            token: this.getToken()
+        });
+
+        return cf.dnsRecords.edit(zoneId, subdomainId, record);
+    }
+
+    createRecord(zoneId, record) {
+        var cf = new Cloudflare({
+            token: this.getToken()
+        });
+
+        return cf.dnsRecords.add(zoneId, record);
+    }
+
     /**
      * 
      * Extract the id for the zone of interest
@@ -46,8 +62,16 @@ export default class App {
      * Extract the subdomain from the dns record list
      */
     getSubdomain(dnsRecords, domain, subdomain) {
+
+        /**
+         * If subdomain is equale to domain, we are looking for
+         * root zone.
+         * Else, we concatenate
+         */
+        const filter = domain === subdomain ? domain : `${subdomain}.${domain}`;
+
         const filteredSubdomain = dnsRecords
-            .filter(dns => dns.name === `${subdomain}.${domain}`)
+            .filter(dns => dns.name === filter)
             .map(record => ({
                 id: record.id,
                 type: record.type,
