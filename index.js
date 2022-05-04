@@ -2,7 +2,6 @@ import * as http from 'http';
 import App from "./src/App.js";
 import * as winston from "winston";
 import * as util from "util";
-import { exit } from 'process';
 
 function transform(info, opts) {
     const args = info[Symbol.for('splat')];
