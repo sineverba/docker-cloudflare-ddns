@@ -1,4 +1,8 @@
-# 1.0.0
+# 1.1.0
++ Upgrade dependencies
++ Compact log
+
+## 1.0.0
 + Upgrade dependencies
 + Add update DNS
 + Refactor instructions and logger

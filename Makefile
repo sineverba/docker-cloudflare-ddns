@@ -2,7 +2,7 @@ include .env
 
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
-APP_VERSION=1.0.0
+APP_VERSION=1.1.0-dev
 
 sonar:
 	docker-compose up sonarscanner
@@ -13,7 +13,7 @@ upgrade:
 	npm audit fix
 
 build:
-	docker build --tag $(IMAGE_NAME):$(APP_VERSION) --tag $(IMAGE_NAME):latest .
+	docker build --tag $(IMAGE_NAME):$(APP_VERSION) .
 
 test:
 	docker run -it --rm --entrypoint cat --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) /etc/os-release | grep "Alpine Linux v3.15"
@@ -43,4 +43,4 @@ stop:
 	docker container rm $(CONTAINER_NAME)
 
 destroy:
-	docker image rm $(IMAGE_NAME):$(APP_VERSION) $(IMAGE_NAME):latest
+	docker image rm $(IMAGE_NAME):$(APP_VERSION)

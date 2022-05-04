@@ -2,7 +2,6 @@ import * as http from 'http';
 import App from "./src/App.js";
 import * as winston from "winston";
 import * as util from "util";
-import { exit } from 'process';
 
 function transform(info, opts) {
     const args = info[Symbol.for('splat')];
@@ -13,17 +12,17 @@ function transform(info, opts) {
 function utilFormatter() { return {transform}; }
 
 const logger = winston.createLogger({
-    level: process.env.LOG_LEVEL || "debug",
+    level: process.env.LOG_LEVEL || "info",
     format: winston.format.combine(
         winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}),
         utilFormatter(),
         winston.format.colorize(),
-        winston.format.printf(({level, message, label, timestamp}) => `\n==========\n${timestamp} ${label || '-'} ${level}: ${message}\n==========\n`)
+        winston.format.printf(({level, message, label, timestamp}) => `${timestamp} ${label || '-'} ${level}: ${message}\n----------`)
       ),
       transports: [
         new winston.transports.Stream({
           stream: process.stderr,
-          level: process.env.LOG_LEVEL || "debug",
+          level: process.env.LOG_LEVEL || "info",
         })
       ],
 });

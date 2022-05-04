@@ -1,1 +1,1 @@
-* * * * * /app/cronscript.sh
+*/5 * * * * /app/cronscript.sh
