@@ -23,9 +23,9 @@ global_job_config:
     - name: DOCKER_IMAGE
       value: cloudflare-ddns
     - name: BUILDX_VERSION
-      value: 0.8.2
+      value: 0.10.0
     - name: BINFMT_VERSION
-      value: qemu-v6.2.0-26
+      value: qemu-v7.0.0-28
 
 blocks:
   - name: 'Build and test image'
@@ -36,8 +36,8 @@ blocks:
           commands:
             - checkout
             - docker build --tag $DOCKER_USERNAME/$DOCKER_IMAGE .
-            - docker run -it --rm --entrypoint cat --name $DOCKER_IMAGE $DOCKER_USERNAME/$DOCKER_IMAGE /etc/os-release | grep "Alpine Linux v3.15"
-            - docker run -it --rm --name $DOCKER_IMAGE $DOCKER_USERNAME/$DOCKER_IMAGE -v | grep "v16.14.2"
+            - docker run -it --rm --entrypoint cat --name $DOCKER_IMAGE $DOCKER_USERNAME/$DOCKER_IMAGE /etc/os-release | grep "Alpine Linux v3.17"
+            - docker run -it --rm --name $DOCKER_IMAGE $DOCKER_USERNAME/$DOCKER_IMAGE -v | grep "v18.13.0"
   - name: 'Deploy'
     dependencies: ["Build and test image"]
     task:
