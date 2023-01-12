@@ -1,8 +1,8 @@
-FROM node:16.14.2-alpine3.15
+FROM node:18.13.0-alpine3.17
 # Upgrade versions
 RUN apk update && apk upgrade --available
 # Upgrade npm
-RUN npm install -g npm@8.6.0
+RUN npm install -g npm@9.2.0
 # Add a workdir directory
 WORKDIR /app
 # Copy dependedncies
@@ -10,7 +10,7 @@ COPY src /app/src/
 COPY index.js /app/
 COPY package*.json /app/
 # Install dependencies
-RUN rm -r /app/src/__tests__ && npm install
+RUN rm -r /app/src/__tests__ && npm install --omit=dev
 
 # Copy file cron with scheduled script
 COPY dockerfiles/crontab.txt /crontab.txt

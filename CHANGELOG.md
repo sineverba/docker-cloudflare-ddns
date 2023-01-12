@@ -1,4 +1,7 @@
-# 1.1.0
+# Next vesion
++ Upgrade dependencies
+
+## 1.1.0
 + Upgrade dependencies
 + Compact log
 
