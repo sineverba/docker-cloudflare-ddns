@@ -11,7 +11,7 @@ export default class App {
   }
 
   browseZones() {
-    var cf = new Cloudflare({
+    let cf = new Cloudflare({
       token: this.getToken(),
     });
 
@@ -20,7 +20,7 @@ export default class App {
   }
 
   browseDNSRecords(id) {
-    var cf = new Cloudflare({
+    let cf = new Cloudflare({
       token: this.getToken(),
     });
 
@@ -28,7 +28,7 @@ export default class App {
   }
 
   updateRecord(zoneId, subdomainId, record) {
-    var cf = new Cloudflare({
+    let cf = new Cloudflare({
       token: this.getToken(),
     });
 
@@ -36,7 +36,7 @@ export default class App {
   }
 
   createRecord(zoneId, record) {
-    var cf = new Cloudflare({
+    let cf = new Cloudflare({
       token: this.getToken(),
     });
 
