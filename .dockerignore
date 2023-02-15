@@ -1,0 +1,13 @@
+.circleci/
+.scannerwork/
+.semaphore/
+coverage/
+node_modules/
+.env.bak
+.env.test
+.gitignore
+.nvmrc
+*.MD
+LICENSE
+Makefile
+sonar-project.properties

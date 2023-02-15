@@ -23,34 +23,35 @@ global_job_config:
     - name: DOCKER_IMAGE
       value: cloudflare-ddns
     - name: BUILDX_VERSION
-      value: 0.10.0
+      value: 0.10.2
     - name: BINFMT_VERSION
       value: qemu-v7.0.0-28
 
 blocks:
-  - name: 'Build and test image'
-    dependencies: []
+  - name: 'Build and deploy'
     task:
       jobs:
-        - name: Test image
-          commands:
-            - checkout
-            - docker build --tag $DOCKER_USERNAME/$DOCKER_IMAGE .
-            - docker run -it --rm --entrypoint cat --name $DOCKER_IMAGE $DOCKER_USERNAME/$DOCKER_IMAGE /etc/os-release | grep "Alpine Linux v3.17"
-            - docker run -it --rm --name $DOCKER_IMAGE $DOCKER_USERNAME/$DOCKER_IMAGE -v | grep "v18.13.0"
-  - name: 'Deploy'
-    dependencies: ["Build and test image"]
-    task:
-      jobs:
-        - name: Build and deploy image
+        - name: 'Build and deploy'
           commands:
             - checkout
             - mkdir -vp ~/.docker/cli-plugins/
-            - curl --silent -L "https://github.com/docker/buildx/releases/download/v$BUILDX_VERSION/buildx-v$BUILDX_VERSION.linux-amd64" > ~/.docker/cli-plugins/docker-buildx
+            - >-
+              curl
+              --silent
+              -L
+              "https://github.com/docker/buildx/releases/download/v$BUILDX_VERSION/buildx-v$BUILDX_VERSION.linux-amd64"
+              >
+              ~/.docker/cli-plugins/docker-buildx
             - chmod a+x ~/.docker/cli-plugins/docker-buildx
             - docker buildx version
             - docker run --rm --privileged tonistiigi/binfmt:$BINFMT_VERSION --install all
             - docker buildx ls
             - docker buildx create --name multiarch --driver docker-container --use
             - docker buildx inspect --bootstrap --builder multiarch
-            - docker buildx build --platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7 --tag $DOCKER_USERNAME/$DOCKER_IMAGE:$SEMAPHORE_GIT_TAG_NAME --tag $DOCKER_USERNAME/$DOCKER_IMAGE:latest --push .
+            - >-
+              docker buildx build
+              --platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7
+              --tag $DOCKER_USERNAME/$DOCKER_IMAGE:$SEMAPHORE_GIT_TAG_NAME
+              --tag $DOCKER_USERNAME/$DOCKER_IMAGE:latest
+              --file dockerfiles/production/build/docker/Dockerfile
+              --push "."
