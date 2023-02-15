@@ -1,5 +1,6 @@
 # Next version
 + Fix code smell
++ Upgrade dependencies
 
 ## 1.2.0
 + Upgrade dependencies

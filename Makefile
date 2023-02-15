@@ -4,8 +4,10 @@ IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
 APP_VERSION=1.2.0-dev
 SONARSCANNER_VERSION=4.8.0
-BUILDX_VERSION=0.10.0
+BUILDX_VERSION=0.10.2
 BINFMT_VERSION=qemu-v7.0.0-28
+NODE_VERSION=18.14.0
+NPM_VERSION=9.5.0
 
 sonar:
 	docker run --rm -it \
@@ -26,7 +28,11 @@ upgrade:
 
 preparemulti:
 	mkdir -vp ~/.docker/cli-plugins
-	curl -L "https://github.com/docker/buildx/releases/download/v$(BUILDX_VERSION)/buildx-v$(BUILDX_VERSION).linux-amd64" > ~/.docker/cli-plugins/docker-buildx
+	curl \
+		-L \
+		"https://github.com/docker/buildx/releases/download/v$(BUILDX_VERSION)/buildx-v$(BUILDX_VERSION).linux-amd64" \
+		> \
+		~/.docker/cli-plugins/docker-buildx
 	chmod a+x ~/.docker/cli-plugins/docker-buildx
 	docker buildx version
 	docker run --rm --privileged tonistiigi/binfmt:$(BINFMT_VERSION) --install all
@@ -36,15 +42,22 @@ preparemulti:
 	docker buildx inspect --bootstrap --builder multiarch
 
 build:
-	docker build --tag $(IMAGE_NAME):$(APP_VERSION) .
+	docker build \
+	--tag $(IMAGE_NAME):$(APP_VERSION) \
+	--file dockerfiles/production/build/docker/Dockerfile \
+	"."
 
 multi:
-	docker buildx build --platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7 \
-		--tag $(IMAGE_NAME):$(APP_VERSION) --tag $(IMAGE_NAME):latest .
+	docker buildx build \
+		--platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7 \
+		--tag $(IMAGE_NAME):$(APP_VERSION) \
+		--file dockerfiles/production/build/docker/Dockerfile \
+		"."
 
 test:
 	docker run -it --rm --entrypoint cat --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) /etc/os-release | grep "Alpine Linux v3.17"
-	docker run -it --rm --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) -v | grep "v18.13.0"
+	docker run -it --rm --entrypoint npm --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) -v | grep $(NPM_VERSION)
+	docker run -it --rm --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) -v | grep v$(NODE_VERSION)
 
 spin:
 	docker run -it --rm --name $(CONTAINER_NAME) \
