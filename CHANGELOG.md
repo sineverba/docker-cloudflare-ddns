@@ -1,6 +1,7 @@
 # Next version
 + Fix code smell
 + Upgrade dependencies
++ Remove nock and add msw
 
 ## 1.2.0
 + Upgrade dependencies
