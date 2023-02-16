@@ -12,7 +12,6 @@ RUN npm -v | grep ${NPM_VERSION}
 WORKDIR /app
 # Copy dependedncies
 COPY src /app/src/
-COPY index.js /app/
 COPY package*.json /app/
 # Install dependencies
 RUN rm -r /app/src/__tests__ && npm install --omit=dev
