@@ -2,6 +2,7 @@
 + Fix code smell
 + Upgrade dependencies
 + Remove nock and add msw
++ Move index.js under src
 
 ## 1.2.0
 + Upgrade dependencies

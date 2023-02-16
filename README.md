@@ -27,7 +27,7 @@ Available architectures:
 + Run `npm install`
 + Copy `.env.bak` in `.env`
 + Compile with your data
-+ Type `node index.js` from the root folder
++ Type `node src/index.js` from the root folder
 
 ## Docker
 

@@ -1,5 +1,5 @@
 import * as http from "http";
-import App from "./src/App.js";
+import App from "./App.js";
 import * as winston from "winston";
 import * as util from "util";
 
