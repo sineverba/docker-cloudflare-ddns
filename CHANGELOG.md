@@ -3,6 +3,7 @@
 + Upgrade dependencies
 + Remove nock and add msw
 + Move index.js under src
++ Refactor Dockerfile
 
 ## 1.2.0
 + Upgrade dependencies
