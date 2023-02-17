@@ -2,7 +2,7 @@ include .env
 
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
-APP_VERSION=1.2.0-dev
+APP_VERSION=1.3.0-dev
 SONARSCANNER_VERSION=4.8.0
 BUILDX_VERSION=0.10.2
 BINFMT_VERSION=qemu-v7.0.0-28
