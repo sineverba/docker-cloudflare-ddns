@@ -1,4 +1,27 @@
-FROM node:18.14.0-alpine3.17
+######################################
+#                                    #
+#           TEST                     #
+#                                    #
+######################################
+FROM node:18.14.0-alpine3.17 as tester
+ENV NPM_VERSION=9.5.0
+# Upgrade npm
+RUN npm install -g npm@${NPM_VERSION}
+# Add a workdir directory
+WORKDIR /app
+# Copy dependedncies
+COPY src /app/src/
+COPY package*.json /app/
+COPY .env.test /app/.env.test
+# Install dependencies
+RUN npm install
+RUN npm run test
+######################################
+#                                    #
+#           BUILD                    #
+#                                    #
+######################################
+FROM node:18.14.0-alpine3.17 as builder
 ENV NPM_VERSION=9.5.0
 # Upgrade versions
 RUN apk update && \
@@ -8,6 +31,7 @@ RUN apk update && \
 RUN npm install -g npm@${NPM_VERSION}
 # Test against versions
 RUN npm -v | grep ${NPM_VERSION}
+RUN node -v | grep 18.14.0
 # Add a workdir directory
 WORKDIR /app
 # Copy dependedncies
