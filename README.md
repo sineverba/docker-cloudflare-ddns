@@ -40,7 +40,7 @@ docker run -d --name cloudflare-ddns \
 	-e SUBDOMAIN=${SUBDOMAIN} \
 	-e PROXIED=${PROXIED} \
   -e LOG_LEVEL=${LOG_LEVEL} \
-	sineverba/cloudflare-ddns:1.2.0
+	sineverba/cloudflare-ddns:latest
 ```
 
 ## Docker Compose
@@ -51,7 +51,7 @@ If you prefer to use Docker Compose (and use `.env` file to mantain your data se
 version: '3.8'
 services:
   cloudflare-ddns:
-    image: sineverba/cloudflare-ddns:1.2.0
+    image: sineverba/cloudflare-ddns:latest
     restart: unless-stopped
     env_file:
       - ./.env
