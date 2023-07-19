@@ -3,8 +3,8 @@
 #           TEST                     #
 #                                    #
 ######################################
-FROM node:18.14.0-alpine3.17 as tester
-ENV NPM_VERSION=9.5.0
+FROM node:18.16.1-alpine3.18 as tester
+ENV NPM_VERSION=9.8.0
 # Upgrade npm
 RUN npm install -g npm@${NPM_VERSION}
 # Add a workdir directory
@@ -21,8 +21,8 @@ RUN npm run test
 #           BUILD                    #
 #                                    #
 ######################################
-FROM node:18.14.0-alpine3.17 as builder
-ENV NPM_VERSION=9.5.0
+FROM node:18.16.1-alpine3.18 as builder
+ENV NPM_VERSION=9.8.0
 # Upgrade versions
 RUN apk update && \
     apk upgrade --available --no-cache && \
@@ -31,7 +31,7 @@ RUN apk update && \
 RUN npm install -g npm@${NPM_VERSION}
 # Test against versions
 RUN npm -v | grep ${NPM_VERSION}
-RUN node -v | grep 18.14.0
+RUN node -v | grep 18.16.1
 # Add a workdir directory
 WORKDIR /app
 # Copy dependedncies
