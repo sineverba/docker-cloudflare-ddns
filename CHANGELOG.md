@@ -1,4 +1,7 @@
-# 1.3.0
+# Next version
++ Upgrade dependencies
+
+## 1.3.0
 + Fix code smell
 + Upgrade dependencies
 + Remove nock and add msw

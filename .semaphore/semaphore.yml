@@ -8,7 +8,7 @@ agent:
 global_job_config:
   env_vars:
     - name: NPM_VERSION
-      value: 9.5.0
+      value: 9.8.0
     - name: SONARSCANNER_VERSION
       value: 4.8.0
   secrets:
