@@ -14,7 +14,7 @@ sonar:
 		--name sonarscanner \
 		-v $(PWD):/usr/src \
 		-e SONAR_HOST_URL=$(SONAR_HOST_URL) \
-		-e SONAR_LOGIN=$(SONAR_TOKEN) \
+		-e SONAR_TOKEN=$(SONAR_TOKEN) \
 		sonarsource/sonar-scanner-cli:$(SONARSCANNER_VERSION)
 
 fixnodesass:
