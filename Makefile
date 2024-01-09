@@ -3,11 +3,11 @@ include .env
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
 APP_VERSION=1.4.0-dev
-SONARSCANNER_VERSION=4.8.0
-BUILDX_VERSION=0.11.2
+SONARSCANNER_VERSION=5.0.1
+BUILDX_VERSION=0.12.0
 BINFMT_VERSION=qemu-v7.0.0-28
-NODE_VERSION=18.16.1
-NPM_VERSION=9.8.0
+NODE_VERSION=20.10.0
+NPM_VERSION=10.2.5
 
 sonar:
 	docker run --rm -it \
@@ -21,8 +21,8 @@ fixnodesass:
 	npm rebuild node-sass
 
 upgrade:
-	npx ncu -u
-	npx browserslist@latest --update-db
+	npx ncu -u -x dotenv-flow -x msw
+	npx update-browserslist-db@latest
 	npm install
 	npm audit fix
 
@@ -43,9 +43,11 @@ preparemulti:
 
 build:
 	docker build \
-	--tag $(IMAGE_NAME):$(APP_VERSION) \
-	--file dockerfiles/production/build/docker/Dockerfile \
-	"."
+		--build-arg NODE_VERSION=$(NODE_VERSION) \
+		--build-arg NPM_VERSION=$(NPM_VERSION) \
+		--tag $(IMAGE_NAME):$(APP_VERSION) \
+		--file dockerfiles/production/build/docker/Dockerfile \
+		"."
 
 multi:
 	preparemulti
@@ -56,7 +58,7 @@ multi:
 		"."
 
 test:
-	docker run -it --rm --entrypoint cat --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) /etc/os-release | grep "Alpine Linux v3.18"
+	docker run -it --rm --entrypoint cat --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) /etc/os-release | grep "Alpine Linux v3.19"
 	docker run -it --rm --entrypoint npm --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) -v | grep $(NPM_VERSION)
 	docker run -it --rm --name $(CONTAINER_NAME) $(IMAGE_NAME):$(APP_VERSION) -v | grep v$(NODE_VERSION)
 
@@ -84,5 +86,5 @@ stop:
 	docker container rm $(CONTAINER_NAME)
 
 destroy:
-	docker image rm node:18.16.1-alpine3.18
+	docker image rm node:20.10.0-alpine3.19
 	docker image rm $(IMAGE_NAME):$(APP_VERSION)
