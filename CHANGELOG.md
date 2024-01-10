@@ -1,4 +1,7 @@
-# 1.5.0
+# 1.5.1
++ Increase Semaphore time limit
+
+## 1.5.0
 + Refactor Semaphore
 + Upgrade dependencies
 
