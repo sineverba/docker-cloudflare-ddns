@@ -35,10 +35,8 @@ preparemulti:
 		~/.docker/cli-plugins/docker-buildx
 	chmod a+x ~/.docker/cli-plugins/docker-buildx
 	docker buildx version
-	docker run --rm --privileged tonistiigi/binfmt:$(BINFMT_VERSION) --install all
 	docker buildx ls
-	docker buildx rm multiarch
-	docker buildx create --name multiarch --driver docker-container --use
+	docker buildx create --name multiarch --use
 	docker buildx inspect --bootstrap --builder multiarch
 
 build:
@@ -50,11 +48,13 @@ build:
 		"."
 
 multi:
-	preparemulti
 	docker buildx build \
+		--build-arg NODE_VERSION=$(NODE_VERSION) \
+		--build-arg NPM_VERSION=$(NPM_VERSION) \
 		--platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7 \
 		--tag $(IMAGE_NAME):$(APP_VERSION) \
 		--file dockerfiles/production/build/docker/Dockerfile \
+		--push \
 		"."
 
 test:

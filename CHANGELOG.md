@@ -1,4 +1,7 @@
-# 1.5.1
+# Next version
++ Change buildx mode
+
+## 1.5.1
 + Increase Semaphore time limit
 
 ## 1.5.0
