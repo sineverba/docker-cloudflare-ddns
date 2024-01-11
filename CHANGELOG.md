@@ -1,4 +1,4 @@
-# Next version
+# 1.6.0
 + Change buildx mode
 
 ## 1.5.1

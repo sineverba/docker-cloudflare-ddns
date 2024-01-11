@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-ddns",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "App to use Cloudflare as DDNS",
   "main": "src/index.js",
   "type": "module",
