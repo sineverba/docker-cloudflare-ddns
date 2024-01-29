@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-ddns",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "App to use Cloudflare as DDNS",
   "main": "src/index.js",
   "type": "module",
@@ -18,7 +18,7 @@
     "coveralls": "^3.1.1",
     "jest": "^29.7.0",
     "msw": "^1.2.2",
-    "npm-check-updates": "^16.14.12"
+    "npm-check-updates": "^16.14.14"
   },
   "jest": {
     "collectCoverage": true,

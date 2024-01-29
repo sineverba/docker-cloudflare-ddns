@@ -2,11 +2,12 @@ include .env
 
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
-APP_VERSION=1.6.0-dev
+APP_VERSION=1.7.0-dev
+NODE_VERSION=20.11.0
+NPM_VERSION=10.4.0
 SONARSCANNER_VERSION=5.0.1
-BUILDX_VERSION=0.12.0
-NODE_VERSION=20.10.0
-NPM_VERSION=10.2.5
+BUILDX_VERSION=0.12.1
+BINFMT_VERSION=qemu-v7.0.0-28
 
 sonar:
 	docker run --rm -it \
@@ -34,8 +35,10 @@ preparemulti:
 		~/.docker/cli-plugins/docker-buildx
 	chmod a+x ~/.docker/cli-plugins/docker-buildx
 	docker buildx version
+	docker run --rm --privileged tonistiigi/binfmt:$(BINFMT_VERSION) --install all
 	docker buildx ls
-	docker buildx create --name multiarch --use
+	docker buildx rm multiarch
+	docker buildx create --name multiarch --driver docker-container --use
 	docker buildx inspect --bootstrap --builder multiarch
 
 build:
@@ -47,13 +50,11 @@ build:
 		"."
 
 multi:
+	preparemulti
 	docker buildx build \
-		--build-arg NODE_VERSION=$(NODE_VERSION) \
-		--build-arg NPM_VERSION=$(NPM_VERSION) \
 		--platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7 \
 		--tag $(IMAGE_NAME):$(APP_VERSION) \
 		--file dockerfiles/production/build/docker/Dockerfile \
-		--push \
 		"."
 
 test:
@@ -85,5 +86,5 @@ stop:
 	docker container rm $(CONTAINER_NAME)
 
 destroy:
-	docker image rm node:20.10.0-alpine3.19
+	docker image rm node:20.11.0-alpine3.19
 	docker image rm $(IMAGE_NAME):$(APP_VERSION)

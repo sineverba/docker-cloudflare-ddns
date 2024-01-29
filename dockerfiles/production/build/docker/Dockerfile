@@ -3,9 +3,9 @@
 #           TEST                     #
 #                                    #
 ######################################
-ARG NODE_VERSION=20.10.0
-FROM --platform=$BUILDPLATFORM node:${NODE_VERSION}-alpine3.19 as tester
-ARG NPM_VERSION=10.2.5
+ARG NODE_VERSION=latest
+FROM node:${NODE_VERSION}-alpine3.19 as tester
+ARG NPM_VERSION=latest
 # Upgrade npm
 RUN npm install -g npm@${NPM_VERSION}
 # Add a workdir directory
@@ -22,7 +22,7 @@ RUN npm run test
 #           BUILD                    #
 #                                    #
 ######################################
-FROM --platform=$BUILDPLATFORM node:${NODE_VERSION}-alpine3.19 as builder
+FROM node:${NODE_VERSION}-alpine3.19 as builder
 # Update and upgrade
 RUN apk update && \
     apk add --upgrade apk-tools && \
