@@ -1,4 +1,7 @@
-# 1.7.0
+# 1.7.1
++ Fix Semaphore
+
+## 1.7.0
 + Upgrade dependencies
 + Refactor Docker
 
