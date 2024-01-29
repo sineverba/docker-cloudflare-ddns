@@ -2,7 +2,7 @@ include .env
 
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
-APP_VERSION=1.7.0-dev
+APP_VERSION=1.7.1-dev
 NODE_VERSION=20.11.0
 NPM_VERSION=10.4.0
 SONARSCANNER_VERSION=5.0.1
@@ -52,6 +52,8 @@ build:
 multi:
 	preparemulti
 	docker buildx build \
+		--build-arg NODE_VERSION=$(NODE_VERSION) \
+		--build-arg NPM_VERSION=$(NPM_VERSION) \
 		--platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7 \
 		--tag $(IMAGE_NAME):$(APP_VERSION) \
 		--file dockerfiles/production/build/docker/Dockerfile \
