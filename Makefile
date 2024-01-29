@@ -3,10 +3,10 @@ include .env
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
 APP_VERSION=1.6.0-dev
+NODE_VERSION=20.11.0
+NPM_VERSION=10.4.0
 SONARSCANNER_VERSION=5.0.1
-BUILDX_VERSION=0.12.0
-NODE_VERSION=20.10.0
-NPM_VERSION=10.2.5
+BUILDX_VERSION=0.12.1
 
 sonar:
 	docker run --rm -it \
@@ -85,5 +85,5 @@ stop:
 	docker container rm $(CONTAINER_NAME)
 
 destroy:
-	docker image rm node:20.10.0-alpine3.19
+	docker image rm node:20.11.0-alpine3.19
 	docker image rm $(IMAGE_NAME):$(APP_VERSION)

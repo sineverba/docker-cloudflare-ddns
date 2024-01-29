@@ -3,9 +3,9 @@
 #           TEST                     #
 #                                    #
 ######################################
-ARG NODE_VERSION=20.10.0
+ARG NODE_VERSION=20.11.0
 FROM --platform=$BUILDPLATFORM node:${NODE_VERSION}-alpine3.19 as tester
-ARG NPM_VERSION=10.2.5
+ARG NPM_VERSION=10.4.0
 # Upgrade npm
 RUN npm install -g npm@${NPM_VERSION}
 # Add a workdir directory

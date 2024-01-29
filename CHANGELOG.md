@@ -1,4 +1,7 @@
-# 1.6.0
+# Next version
++ Upgrade dependencies
+
+## 1.6.0
 + Change buildx mode
 
 ## 1.5.1
