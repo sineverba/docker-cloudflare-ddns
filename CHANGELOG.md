@@ -1,5 +1,6 @@
 # Next version
 + Upgrade dependencies
++ Refactor Docker
 
 ## 1.6.0
 + Change buildx mode
