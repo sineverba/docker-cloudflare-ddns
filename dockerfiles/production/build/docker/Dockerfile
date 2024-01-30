@@ -1,42 +1,27 @@
 ######################################
 #                                    #
-#           TEST                     #
-#                                    #
-######################################
-ARG NODE_VERSION=latest
-FROM node:${NODE_VERSION}-alpine3.19 as tester
-ARG NPM_VERSION=latest
-# Upgrade npm
-RUN npm install -g npm@${NPM_VERSION}
-# Add a workdir directory
-WORKDIR /app
-# Copy dependedncies
-COPY src /app/src/
-COPY package*.json /app/
-COPY .env.test /app/.env.test
-# Install dependencies
-RUN npm install
-RUN npm run test
-######################################
-#                                    #
 #           BUILD                    #
 #                                    #
 ######################################
+ARG NODE_VERSION=latest
 FROM node:${NODE_VERSION}-alpine3.19 as builder
 # Update and upgrade
 RUN apk update && \
     apk add --upgrade apk-tools && \
     apk upgrade --available && \
     rm -rf /var/cache/apk/*
-# Upgrade npm
-RUN npm install -g npm@${NPM_VERSION}
 # Add a workdir directory
 WORKDIR /app
 # Copy dependedncies
 COPY src /app/src/
 COPY package*.json /app/
-# Install dependencies
-RUN rm -r /app/src/__tests__ && npm install --omit=dev
+# Clean app directory
+RUN rm -r /app/src/__tests__
+RUN rm -r /app/src/mocks
+RUN rm -r /app/src/jest.setup.js
+
+# Setup depedencies
+RUN npm ci
 
 # Copy file cron with scheduled script
 COPY dockerfiles/production/build/docker/crontab.txt /crontab.txt
