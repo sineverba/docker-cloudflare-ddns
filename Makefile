@@ -44,7 +44,6 @@ preparemulti:
 build:
 	docker build \
 		--build-arg NODE_VERSION=$(NODE_VERSION) \
-		--build-arg NPM_VERSION=$(NPM_VERSION) \
 		--tag $(IMAGE_NAME):$(APP_VERSION) \
 		--file dockerfiles/production/build/docker/Dockerfile \
 		"."
@@ -53,7 +52,6 @@ multi:
 	preparemulti
 	docker buildx build \
 		--build-arg NODE_VERSION=$(NODE_VERSION) \
-		--build-arg NPM_VERSION=$(NPM_VERSION) \
 		--platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7 \
 		--tag $(IMAGE_NAME):$(APP_VERSION) \
 		--file dockerfiles/production/build/docker/Dockerfile \
