@@ -2,7 +2,6 @@
 .scannerwork/
 .semaphore/
 coverage/
-node_modules/
 .env.bak
 .gitignore
 .nvmrc
