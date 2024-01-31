@@ -1,4 +1,7 @@
-# 1.7.2
+# Next versions
++ Fix versions
+
+## 1.7.2
 + Fix Semaphore
 
 ## 1.7.1
