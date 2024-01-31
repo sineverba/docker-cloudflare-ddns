@@ -1,4 +1,8 @@
-# 1.7.2
+# 1.7.3
++ Fix versions
++ Fix Docker
+
+## 1.7.2
 + Fix Semaphore
 
 ## 1.7.1

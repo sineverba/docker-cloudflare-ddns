@@ -2,7 +2,7 @@ include .env
 
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
-APP_VERSION=1.7.1-dev
+APP_VERSION=1.7.3-dev
 NODE_VERSION=20.11.0
 NPM_VERSION=10.4.0
 SONARSCANNER_VERSION=5.0.1
@@ -68,6 +68,13 @@ spin:
 	-e ZONE=${ZONE} \
 	-e SUBDOMAIN=${SUBDOMAIN} \
 	-e PROXIED=${PROXIED} \
+	$(IMAGE_NAME):$(APP_VERSION)
+
+inspect:
+	docker run \
+	--rm -it \
+	--entrypoint /bin/sh \
+	--name $(CONTAINER_NAME) \
 	$(IMAGE_NAME):$(APP_VERSION)
 
 detached:
