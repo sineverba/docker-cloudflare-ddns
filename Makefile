@@ -70,6 +70,13 @@ spin:
 	-e PROXIED=${PROXIED} \
 	$(IMAGE_NAME):$(APP_VERSION)
 
+inspect:
+	docker run \
+	--rm -it \
+	--entrypoint /bin/sh \
+	--name $(CONTAINER_NAME) \
+	$(IMAGE_NAME):$(APP_VERSION)
+
 detached:
 	docker run -d --name $(CONTAINER_NAME) \
 	-e CF_TOKEN=${CF_TOKEN} \

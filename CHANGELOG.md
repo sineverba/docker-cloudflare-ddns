@@ -1,5 +1,6 @@
 # Next versions
 + Fix versions
++ Fix Docker
 
 ## 1.7.2
 + Fix Semaphore
