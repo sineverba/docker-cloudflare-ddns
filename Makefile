@@ -2,9 +2,9 @@ include .env
 
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
-APP_VERSION=1.7.3-dev
-NODE_VERSION=20.11.0
-NPM_VERSION=10.4.0
+APP_VERSION=2.0.0-dev
+NODE_VERSION=20.11.1
+NPM_VERSION=10.5.0
 SONARSCANNER_VERSION=5.0.1
 BUILDX_VERSION=0.12.1
 BINFMT_VERSION=qemu-v7.0.0-28
@@ -93,5 +93,4 @@ stop:
 	docker container rm $(CONTAINER_NAME)
 
 destroy:
-	docker image rm node:20.11.0-alpine3.19
 	docker image rm $(IMAGE_NAME):$(APP_VERSION)
