@@ -38,7 +38,7 @@ blocks:
         - name: Test
           commands:
             - cache restore
-            - CI=true npm run test
+            - CI=true npx run jest
 
   - name: Coverage
     skip:
