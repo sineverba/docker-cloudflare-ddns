@@ -47,7 +47,7 @@ blocks:
       prologue:
         commands:
           - cache restore
-          - CI=true npm run test
+          - CI=true npx jest --coverage
       jobs:
         - name: Coverage
           commands:
