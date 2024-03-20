@@ -1,7 +1,6 @@
 import dotenvFlow from "dotenv-flow";
 import App from "./App.js";
-import { logger } from "./logger.js";
-import { getPublicIp } from "./utils/utils.js";
+import { getPublicIp, logger } from "./utils/utils.js";
 
 async function initializeApp() {
   logger.info("App started!");
