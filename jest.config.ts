@@ -1,16 +1,18 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+  collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}"],
+
   moduleNameMapper: {
-    '^public-ip$': '<rootDir>/src/__tests__/__mocks__/publicIp.js', // Mocking the public-ip module
+    "^public-ip$": "<rootDir>/src/__tests__/__mocks__/publicIp.js", // Mocking the public-ip module
   },
   modulePathIgnorePatterns: [
     "<rootDir>/dist/",
     "<rootDir>/node_modules/",
-    "<rootDir>/src/__tests__/__mocks__/"
+    "<rootDir>/src/__tests__/__mocks__/",
   ],
+  preset: "ts-jest",
+  testEnvironment: "node",
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    "^.+\\.tsx?$": "ts-jest",
   },
 };
