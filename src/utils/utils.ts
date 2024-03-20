@@ -1,3 +1,4 @@
+// Funzione che ottiene l'indirizzo IP pubblico
 import { publicIpv4 } from "public-ip";
 
 async function getPublicIp(): Promise<string> {
