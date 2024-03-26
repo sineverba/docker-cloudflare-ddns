@@ -9,6 +9,17 @@ import dotenvFlow from "dotenv-flow";
 dotenvFlow.config();
 
 /**
+ * Calculate the log level
+ * @returns string the log level
+ */
+const getLogLevel = (): string => {
+  if (!process.env.LOG_LEVEL || process.env.LOG_LEVEL === "") {
+    return "debug";
+  }
+  return process.env.LOG_LEVEL;
+};
+
+/**
  * Format log message for Winston
  */
 const formatLogMessage = (
@@ -40,7 +51,8 @@ const logger: winston.Logger = winston.createLogger({
   transports: [
     new winston.transports.Stream({
       stream: process.stderr,
-      level: /* istanbul ignore next */ process.env.LOG_LEVEL ?? "debug",
+      level: getLogLevel(),
+      silent: process.env.NODE_ENV === "test",
     }),
   ],
 });
@@ -48,10 +60,10 @@ const logger: winston.Logger = winston.createLogger({
 const getPublicIp = async (): Promise<string> => {
   try {
     return await publicIpv4();
-  } catch (error) /* istanbul ignore next */ {
-    logger.error("Unable to fetch public IP. The error was $s", error);
+  } catch (error) {
+    logger.error("Unable to fetch public IP. The error was %s", error);
     return ""; // In caso di errore, ritorna una stringa vuota
   }
 };
 
-export { formatLogMessage, logger, getPublicIp };
+export { getLogLevel, formatLogMessage, logger, getPublicIp };

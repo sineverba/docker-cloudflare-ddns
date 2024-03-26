@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { formatLogMessage } from "../../utils/utils";
 
 describe("Test external utils", () => {

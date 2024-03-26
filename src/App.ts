@@ -1,3 +1,10 @@
+import Cloudflare from "cloudflare";
+import { PagePromise } from "cloudflare/core.mjs";
+import {
+  Zone,
+  ZonesV4PagePaginationArray,
+} from "cloudflare/resources/index.mjs";
+
 export default class App {
   private token: string | undefined;
 
@@ -16,4 +23,18 @@ export default class App {
   public getToken(): string | undefined {
     return this.token;
   }
+
+  /**
+   * Initialize Cloudflare
+   * @returns {Cloudflare} a Cloudflare instance
+   */
+  private cf(): Cloudflare {
+    return new Cloudflare({ apiToken: this.getToken() });
+  }
+
+  /**
+   * Browse the zones in Cloudflare
+   */
+  browseZones = (zone: string): PagePromise<ZonesV4PagePaginationArray, Zone> =>
+    this.cf().zones.list({ query: { name: zone } });
 }

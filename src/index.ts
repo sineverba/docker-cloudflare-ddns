@@ -18,12 +18,25 @@ async function initializeApp() {
     );
     process.exit(1);
   }
+  if (process.env.ZONE === undefined) {
+    logger.error(
+      "ZONE is undefined. Unable to continue. Exit from application.",
+    );
+    process.exit(1);
+  }
   app.setToken(process.env.CF_TOKEN);
   /**
    * 1. Get public IP
    */
   const currentPublicIp = await getPublicIp();
   logger.debug("Got public IP as %s", currentPublicIp);
+  /**
+   * 2. Get the main ID of the zone.
+   * Zone is domain name, second level.
+   *
+   * E.g.: "example.com" is a zone.
+   */
+  await app.browseZones(process.env.ZONE).then((data) => data.result[0].id);
 }
 
 initializeApp().catch((error) => {
