@@ -1,0 +1,1 @@
++ Abilitare JUNIT Jenkins Jest XML per Semaphore
