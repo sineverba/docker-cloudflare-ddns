@@ -23,7 +23,7 @@ global_job_config:
     - name: DOCKER_IMAGE
       value: cloudflare-ddns
     - name: BUILDX_VERSION
-      value: 0.12.1
+      value: 0.13.1
     - name: NODE_VERSION
       value: 20.11.1
     - name: NPM_VERSION

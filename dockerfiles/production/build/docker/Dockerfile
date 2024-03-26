@@ -13,14 +13,7 @@ RUN apk update && \
 # Add a workdir directory
 WORKDIR /app
 # Copy dependedncies
-COPY src /app/src/
-COPY package*.json /app/
-COPY node_modules /app/node_modules/
-
-# Clean app directory
-RUN rm -r /app/src/__tests__
-RUN rm -r /app/src/mocks
-RUN rm -r /app/src/jest.setup.js
+COPY dist /app/
 
 # Copy file cron with scheduled script
 COPY dockerfiles/production/build/docker/crontab.txt /crontab.txt
