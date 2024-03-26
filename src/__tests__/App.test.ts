@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
+import zones from "./__mocks__/responses/zones.json";
+import dnsRecords from "./__mocks__/responses/dnsRecords.json";
 import App from "../App";
+
+const zoneId = zones.result[0].id;
+const dnsRecordsId = dnsRecords.result[0].id;
 
 describe("Test APP file", () => {
   it("Can set and get the token", () => {
@@ -12,6 +17,13 @@ describe("Test APP file", () => {
     const app = new App();
     app.setToken("aFakeToken");
     const zones = await app.browseZones(process.env.ZONE as string);
-    expect(zones.result[0].id).toBe("23XhtvhnUu5YdKNeRzg3BQqjx1WwF666");
+    expect(zones.result[0].id).toBe(zoneId);
+  });
+
+  it("Can get dns records", async () => {
+    const app = new App();
+    app.setToken("aFakeToken");
+    const dns = await app.getDnsRecords(zoneId);
+    expect(dns.result[0].id).toBe(dnsRecordsId);
   });
 });
