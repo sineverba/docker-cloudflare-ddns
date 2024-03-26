@@ -36,7 +36,10 @@ async function initializeApp() {
    *
    * E.g.: "example.com" is a zone.
    */
-  await app.browseZones(process.env.ZONE).then((data) => data.result[0].id);
+  const zoneId = await app
+    .browseZones(process.env.ZONE)
+    .then((data) => data.result[0].id);
+  logger.debug("Got zoneId as %s", zoneId);
 }
 
 initializeApp().catch((error) => {

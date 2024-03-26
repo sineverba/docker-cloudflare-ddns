@@ -1,6 +1,10 @@
 import Cloudflare from "cloudflare";
 import { PagePromise } from "cloudflare/core.mjs";
 import {
+  DNSRecord,
+  DNSRecordsV4PagePaginationArray,
+} from "cloudflare/resources/dns/records.mjs";
+import {
   Zone,
   ZonesV4PagePaginationArray,
 } from "cloudflare/resources/index.mjs";
@@ -37,4 +41,12 @@ export default class App {
    */
   browseZones = (zone: string): PagePromise<ZonesV4PagePaginationArray, Zone> =>
     this.cf().zones.list({ query: { name: zone } });
+
+  /**
+   * Fetch the DNS Records for a zone (domain name) ID
+   */
+  getDnsRecords = (
+    zoneId: string,
+  ): PagePromise<DNSRecordsV4PagePaginationArray, DNSRecord> =>
+    this.cf().dns.records.list({ zone_id: zoneId });
 }
