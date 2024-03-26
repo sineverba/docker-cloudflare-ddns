@@ -6,7 +6,7 @@ APP_VERSION=2.0.0-dev
 NODE_VERSION=20.11.1
 NPM_VERSION=10.5.0
 SONARSCANNER_VERSION=5.0.1
-BUILDX_VERSION=0.12.1
+BUILDX_VERSION=0.13.1
 BINFMT_VERSION=qemu-v7.0.0-28
 
 sonar:
@@ -21,7 +21,7 @@ fixnodesass:
 	npm rebuild node-sass
 
 upgrade:
-	npx ncu -u -x dotenv-flow -x msw
+	npx ncu -u
 	npx update-browserslist-db@latest
 	npm install
 	npm audit fix
