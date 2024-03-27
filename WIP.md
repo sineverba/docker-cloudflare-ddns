@@ -1,1 +1,1 @@
-From browseDNS Records, implemented, get a list of subdomains
++ Implemented method to get subdomains, so continue from 2 from index.js
