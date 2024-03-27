@@ -25,7 +25,7 @@
       "id": "KuWKAaa71GZqUFedummZ4YIHapdivFQx",
       "zone_id": "23XhtvhnUu5YdKNeRzg3BQqjx1WwF666",
       "zone_name": "example.com",
-      "name": "vpn.example.com",
+      "name": "subdomain.example.com",
       "type": "A",
       "content": "1.2.3.4",
       "proxiable": true,
