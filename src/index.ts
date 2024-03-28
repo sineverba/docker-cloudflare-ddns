@@ -1,6 +1,6 @@
 import dotenvFlow from "dotenv-flow";
 import App from "./App.js";
-import { getPublicIp, logger } from "./utils/utils.js";
+import { getPublicIp, getSubdomain, logger } from "./utils/utils.js";
 
 async function initializeApp() {
   logger.info("App started!");
@@ -40,6 +40,27 @@ async function initializeApp() {
     .browseZones(process.env.ZONE)
     .then((data) => data.result[0].id);
   logger.debug("Got zoneId as %s", zoneId);
+  /**
+   * 3. Get the DNS records
+   */
+  const dnsRecords = await app.getDnsRecords(zoneId);
+  logger.debug("Got %s DNS records", dnsRecords.getPaginatedItems().length);
+  if (dnsRecords.getPaginatedItems().length > 0) {
+    dnsRecords
+      .getPaginatedItems()
+      .map((dnsRecord, index) =>
+        logger.debug("%sth DNS record is %s", index + 1, dnsRecord),
+      );
+  }
+  /**
+   * 4. Filter by subdomain
+   */
+  const subdomain = getSubdomain(
+    dnsRecords.getPaginatedItems(),
+    process.env.ZONE,
+    process.env.SUBDOMAIN ?? process.env.ZONE,
+  );
+  logger.debug("Filtered subdomain as %s", subdomain);
 }
 
 initializeApp().catch((error) => {
