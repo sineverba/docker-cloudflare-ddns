@@ -24,6 +24,7 @@
     "dist/**/*"
   ],
   "dependencies": {
+    "@sineverba/getboolean": "^1.0.0",
     "cloudflare": "^3.0.0",
     "dotenv-flow": "^4.1.0",
     "public-ip": "^6.0.2",

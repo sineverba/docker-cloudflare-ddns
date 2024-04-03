@@ -5,6 +5,7 @@ import winston from "winston";
 import { publicIpv4 } from "public-ip";
 import dotenvFlow from "dotenv-flow";
 import { DNSRecord } from "cloudflare/resources/dns/records.mjs";
+import { getBoolean } from "@sineverba/getboolean";
 
 // Start env file
 dotenvFlow.config();
@@ -164,4 +165,55 @@ const getSubdomain = (
     }))[0];
 };
 
-export { getLogLevel, formatLogMessage, logger, getPublicIp, getSubdomain };
+/**
+ * Represents a DNS record with content, type, name, and proxied status.
+ */
+interface IRecord {
+  /** The content of the DNS record, typically a public IP address. */
+  content: string;
+
+  /** The type of DNS record, which is always "A" for this interface. */
+  type: "A";
+
+  /** The name of the DNS record, which can be a subdomain or the root domain. */
+  name: string;
+
+  /**
+   * A boolean value indicating whether the DNS record is proxied through a CDN (Content Delivery Network).
+   * `true` if the record is proxied, `false` otherwise.
+   */
+  proxied: boolean;
+}
+
+/**
+ * Retrieves DNS record information based on the provided public IP address.
+ * @param publicIp The public IP address to be used as the DNS record content.
+ * @returns An object representing the DNS record with content, type, name, and proxied status.
+ */
+const getRecord = (publicIp: string): IRecord => {
+  // Determine the name of the DNS record based on the presence of a subdomain in the environment variables.
+  const name =
+    process.env.SUBDOMAIN && process.env.SUBDOMAIN !== ""
+      ? process.env.SUBDOMAIN
+      : "@";
+
+  // Extract the proxied status from the environment variables and convert it to a boolean value.
+  const proxied = getBoolean(process.env.PROXIED);
+
+  // Construct and return the DNS record object.
+  return {
+    content: publicIp,
+    type: "A",
+    name: name,
+    proxied: proxied,
+  };
+};
+
+export {
+  getLogLevel,
+  formatLogMessage,
+  logger,
+  getPublicIp,
+  getSubdomain,
+  getRecord,
+};
