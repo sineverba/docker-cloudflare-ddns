@@ -30,7 +30,7 @@ if (typeof subdomain === "undefined") {
 
 /// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< siamo qui
 
-  if (app.isIpDifferent(ip, subdomain)) {
+  if (app.isIpDifferent(ip, subdomain)) { >>>>>>>>>>>>>>>> già fatto metodo
     logger.info("Updating record");
     logger.debug("%s", record);
 

@@ -225,6 +225,18 @@ const getRecord = (publicIp: string): IRecord => {
 const handleErrors = (data: object): string =>
   "Cannot create record. Record already exists.";
 
+/**
+ * Checks if the current public IP is different from the IP in the DNS record.
+ * @param {string} currentPublicIp The current public IP to compare.
+ * @param {DNSRecord} dnsRecord The DNS record to compare against.
+ * @returns {boolean} True if the current IP is different from the DNS record IP, otherwise false.
+ */
+
+const isIpDifferent = (
+  currentPublicIp: string,
+  dnsRecord: DNSRecord,
+): boolean => currentPublicIp !== dnsRecord.content;
+
 export {
   getLogLevel,
   formatLogMessage,
@@ -234,4 +246,5 @@ export {
   getRecord,
   IRecord,
   handleErrors,
+  isIpDifferent,
 };
