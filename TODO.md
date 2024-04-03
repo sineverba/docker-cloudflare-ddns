@@ -1,6 +1,4 @@
 + Abilitare JUNIT Jenkins Jest XML per Semaphore
-+ Scrivere commenti per getRecord
-+ Fare funzione per verificare se ADD record è andato ok (zoneid == and success = true)
 + Aggiungere risposta KO
 
 + + Got Subdomain, new to do
@@ -20,7 +18,7 @@ if (typeof subdomain === "undefined") {
   /**
    * New subdomain, need to create it
    */
-  const createdRecord = await createRecord(zoneId, record); /// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< siamo qui
+  const createdRecord = await createRecord(zoneId, record); 
   if (createdRecord) {
     logger.info(
       "Create new record %s succeeded",
@@ -28,6 +26,10 @@ if (typeof subdomain === "undefined") {
     );
   }
 } else {
+
+
+/// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< siamo qui
+
   if (app.isIpDifferent(ip, subdomain)) {
     logger.info("Updating record");
     logger.debug("%s", record);

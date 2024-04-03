@@ -1,6 +1,12 @@
 import dotenvFlow from "dotenv-flow";
 import App from "./App.js";
-import { getPublicIp, getSubdomain, logger } from "./utils/utils.js";
+import {
+  getPublicIp,
+  getRecord,
+  getSubdomain,
+  handleErrors,
+  logger,
+} from "./utils/utils.js";
 
 async function initializeApp() {
   logger.info("App started!");
@@ -61,6 +67,22 @@ async function initializeApp() {
     process.env.SUBDOMAIN ?? process.env.ZONE,
   );
   logger.debug("Filtered subdomain as %s", subdomain);
+
+  /**
+   * If subdomain is undefined, we need to create record
+   */
+  if (typeof subdomain === "undefined") {
+    logger.info("Record is new. Attempting to create record");
+    await app
+      .addRecord(zoneId, getRecord(currentPublicIp))
+      .then((data) => {
+        logger.info("Record inserted successfully");
+        logger.debug("Created record info: %s", data);
+      })
+      .catch((error) => logger.error(handleErrors(error)));
+    // Exit!
+    process.exit(1);
+  }
 }
 
 initializeApp().catch((error) => {
