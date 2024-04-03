@@ -209,6 +209,22 @@ const getRecord = (publicIp: string): IRecord => {
   };
 };
 
+/**
+ * Handle Errors Function
+ *
+ * @description
+ * A utility function that generates an error message for scenarios where a record creation fails due to existing data.
+ *
+ * @param data - An object representing the data that attempted to be created.
+ * @returns A string containing the error message indicating that the record creation failed due to existing data.
+ *
+ * @example
+ * const errorMessage = handleErrors({ name: "John", age: 30 });
+ * console.log(errorMessage); // Output: "Cannot create record. Record already exists."
+ */
+const handleErrors = (data: object): string =>
+  "Cannot create record. Record already exists.";
+
 export {
   getLogLevel,
   formatLogMessage,
@@ -217,4 +233,5 @@ export {
   getSubdomain,
   getRecord,
   IRecord,
+  handleErrors,
 };
