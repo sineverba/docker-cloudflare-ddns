@@ -24,18 +24,18 @@
     "dist/**/*"
   ],
   "dependencies": {
-    "cloudflare": "^3.0.0-beta.12",
+    "cloudflare": "^3.0.0",
     "dotenv-flow": "^4.1.0",
     "public-ip": "^6.0.2",
     "winston": "^3.13.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
+    "@types/node": "^20.12.3",
     "@vitest/coverage-v8": "^1.4.0",
     "coveralls": "^3.1.1",
     "husky": "^9.0.11",
     "jsdom": "^24.0.0",
-    "msw": "^2.2.11",
+    "msw": "^2.2.13",
     "npm-check-updates": "^16.14.18",
     "prettier": "^3.2.5",
     "tslint": "^6.1.3",
