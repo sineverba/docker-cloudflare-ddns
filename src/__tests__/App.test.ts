@@ -26,4 +26,18 @@ describe("Test APP file", () => {
     const dns = await app.getDnsRecords(zoneId);
     expect(dns.result[0].id).toBe(dnsRecordsId);
   });
+
+  it("Can add a new record", async () => {
+    const app = new App();
+    app.setToken("aFakeToken");
+    const zoneId = zones.result[0].id;
+    const record = {
+      content: "1.2.3.4",
+      type: "A",
+      name: "newsubdomain",
+      proxied: true,
+    };
+    const result = await app.addRecord(zoneId, record);
+    expect(result.zone_id).toBe(zones.result[0].id);
+  });
 });

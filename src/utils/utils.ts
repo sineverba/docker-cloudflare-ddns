@@ -147,7 +147,7 @@ const getSubdomain = (
   dnsRecords: DNSRecord[],
   domain: string,
   subdomain: string,
-): ISubdomain => {
+): ISubdomain | undefined => {
   /**
    * If subdomain is equal to domain, we are looking for
    * root zone.
@@ -156,7 +156,7 @@ const getSubdomain = (
   const filter = domain === subdomain ? domain : `${subdomain}.${domain}`;
 
   return dnsRecords
-    .filter((dns: any) => dns.name === filter)
+    .filter((dns: DNSRecord) => dns.name === filter)
     .map((record: any) => ({
       id: record.id,
       type: record.type,
@@ -173,7 +173,7 @@ interface IRecord {
   content: string;
 
   /** The type of DNS record, which is always "A" for this interface. */
-  type: "A";
+  type: string;
 
   /** The name of the DNS record, which can be a subdomain or the root domain. */
   name: string;
@@ -216,4 +216,5 @@ export {
   getPublicIp,
   getSubdomain,
   getRecord,
+  IRecord,
 };

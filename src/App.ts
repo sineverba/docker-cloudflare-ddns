@@ -1,5 +1,5 @@
 import Cloudflare from "cloudflare";
-import { PagePromise } from "cloudflare/core.mjs";
+import { APIPromise, PagePromise } from "cloudflare/core.mjs";
 import {
   DNSRecord,
   DNSRecordsV4PagePaginationArray,
@@ -8,6 +8,7 @@ import {
   Zone,
   ZonesV4PagePaginationArray,
 } from "cloudflare/resources/index.mjs";
+import { IRecord } from "./utils/utils.js";
 
 export default class App {
   private token: string | undefined;
@@ -49,4 +50,16 @@ export default class App {
     zoneId: string,
   ): PagePromise<DNSRecordsV4PagePaginationArray, DNSRecord> =>
     this.cf().dns.records.list({ zone_id: zoneId });
+
+  addRecord = (
+    zoneId: string,
+    record: IRecord,
+  ): APIPromise<Cloudflare.DNS.Records.DNSRecord> =>
+    this.cf().dns.records.create({
+      zone_id: zoneId,
+      content: record.content,
+      name: record.name,
+      type: "A",
+      proxied: record.proxied,
+    });
 }
