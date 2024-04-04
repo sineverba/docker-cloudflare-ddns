@@ -30,11 +30,11 @@ if (typeof subdomain === "undefined") {
 
 /// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< siamo qui
 
-  if (app.isIpDifferent(ip, subdomain)) { >>>>>>>>>>>>>>>> già fatto metodo
+  if (app.isIpDifferent(ip, subdomain)) { 
     logger.info("Updating record");
     logger.debug("%s", record);
 
-    const updatedRecord = await updateRecord(zoneId, subdomain.id, record);
+    const updatedRecord = await updateRecord(zoneId, subdomain.id, record); >>>>>>>>>>>>>>>> già fatto metodo
     if (updatedRecord) {
       logger.info("Update succeeded");
     }
@@ -47,4 +47,6 @@ if (typeof subdomain === "undefined") {
 and need to check for `if (typeof subdomain === "undefined") {`
 
 
++ Creare record con già dentro la zone_id
 + Remove type from all records (only A is permitted)
++ In App.tests cambiare martellati ID in alto

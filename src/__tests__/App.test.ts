@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import zones from "./__mocks__/responses/zones.json";
 import dnsRecords from "./__mocks__/responses/dnsRecords.json";
 import App from "../App";
@@ -39,5 +39,25 @@ describe("Test APP file", () => {
     };
     const result = await app.addRecord(zoneId, record);
     expect(result.zone_id).toBe(zones.result[0].id);
+  });
+
+  it("Can update a record", async () => {
+    vi.stubEnv("ZONE", "example.com");
+    vi.stubEnv("SUBDOMAIN", "subdomain");
+    const app = new App();
+    app.setToken("aFakeToken");
+    const zoneId = zones.result[0].id;
+    const dnsRecord = dnsRecords.result.filter(
+      (dnsRecord) =>
+        dnsRecord.name === `${process.env.SUBDOMAIN}.${process.env.ZONE}`,
+    )[0];
+    const record = {
+      content: "1.2.3.4",
+      type: "A",
+      name: "subdomain",
+      proxied: true,
+    };
+    const result = await app.updateRecord(zoneId, dnsRecord.id, record);
+    expect(result.id).toBe(dnsRecord.id);
   });
 });
