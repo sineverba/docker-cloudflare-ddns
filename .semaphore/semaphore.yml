@@ -18,6 +18,9 @@ global_job_config:
       - checkout
       - npm install -g npm@$NPM_VERSION
       - echo $SEMAPHORE_GIT_URL
+      - export GIT_HTTP_URL=$(echo $SEMAPHORE_GIT_URL | sed 's/git@github.com:/https:\/\/github.com\//')
+      - echo $GIT_HTTP_URL
+
 
 blocks:
 
