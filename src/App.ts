@@ -84,10 +84,14 @@ export default class App {
    * @param {string} zoneId - The identifier of the zone where the DNS record resides.
    * @param {string} dnsRecordId - The identifier of the DNS record to be updated.
    * @param {IRecord} record - An object containing the updated information for the DNS record.
-   * @returns {Promise<any>} A promise representing the outcome of the record update operation.
+   * @returns {APIPromise<Cloudflare.DNS.Records.DNSRecord>} A promise representing the outcome of the record update operation.
    * @see https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-patch-dns-record
    */
-  updateRecord = (zoneId: string, dnsRecordId: string, record: IRecord): any =>
+  updateRecord = (
+    zoneId: string,
+    dnsRecordId: string,
+    record: IRecord,
+  ): APIPromise<Cloudflare.DNS.Records.DNSRecord> =>
     this.cf().dns.records.edit(dnsRecordId, {
       zone_id: zoneId,
       content: record.content,
