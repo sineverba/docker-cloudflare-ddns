@@ -48,7 +48,7 @@ blocks:
               "echo $DOCKER_TOKEN | docker login --username $DOCKER_USERNAME --password-stdin && mkdir -p ~/cicd$DOCKER_IMAGE && exit"
             - >-
               ssh -t $VPS01_OCI_USERNAME@$VPS01_OCI_URL -p $VPS01_OCI_PORT
-              "cd cicd$DOCKER_IMAGE && git clone $GIT_HTTP_URL ."
+              "cd cicd$DOCKER_IMAGE && git clone $GIT_HTTP_URL . && git checkout refactor-docker-build"
             - >-
               ssh -t $VPS01_OCI_USERNAME@$VPS01_OCI_URL -p $VPS01_OCI_PORT
               "docker run --rm --privileged tonistiigi/binfmt:$BINFMT_VERSION --install all"
