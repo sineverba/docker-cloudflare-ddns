@@ -16,6 +16,7 @@ global_job_config:
   prologue:
     commands:
       - echo $DOCKER_TOKEN | docker login --username "$DOCKER_USERNAME" --password-stdin
+      - export GIT_HTTP_URL=$(echo $SEMAPHORE_GIT_URL | sed 's/git@github.com:/https:\/\/github.com\//')
 
   env_vars:
     - name: DOCKER_USERNAME
@@ -44,7 +45,9 @@ blocks:
             - >-
               ssh -t $VPS01_OCI_USERNAME@$VPS01_OCI_URL -p $VPS01_OCI_PORT
               "echo $DOCKER_TOKEN | docker login --username $DOCKER_USERNAME --password-stdin && mkdir -p ~/cicd$DOCKER_IMAGE && exit"
-            - scp -P $VPS01_OCI_PORT Dockerfile $VPS01_OCI_USERNAME@$VPS01_OCI_URL:cicd$DOCKER_IMAGE
+            - >-
+              ssh -t $VPS01_OCI_USERNAME@$VPS01_OCI_URL -p $VPS01_OCI_PORT
+              "cd cicd$DOCKER_IMAGE && git clone $GIT_HTTP_URL ."
             - >-
               ssh -t $VPS01_OCI_USERNAME@$VPS01_OCI_URL -p $VPS01_OCI_PORT
               "docker run --rm --privileged tonistiigi/binfmt:$BINFMT_VERSION --install all"
@@ -56,7 +59,7 @@ blocks:
               "cd cicd$DOCKER_IMAGE && docker buildx build --cache-to=type=inline --platform linux/arm64,linux/arm/v6,linux/arm/v7 --build-arg NODE_VERSION=$NODE_VERSION --build-arg NPM_VERSION=$NPM_VERSION --tag $DOCKER_USERNAME/$DOCKER_IMAGE:cache-arm --push '.'"
             - >-
               ssh -t $VPS01_OCI_USERNAME@$VPS01_OCI_URL -p $VPS01_OCI_PORT
-              "docker buildx rm multiarch && rm -r ~/cicd$DOCKER_IMAGE"
+              "docker buildx rm multiarch && rm -fr ~/cicd$DOCKER_IMAGE"
   - name: 'Build image for AMD64'
     task:
       jobs:
@@ -83,8 +86,6 @@ blocks:
               --platform linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7 
               --build-arg NODE_VERSION=$NODE_VERSION 
               --build-arg NPM_VERSION=$NPM_VERSION 
-              --build-arg NETLIFY_CLI_VERSION=$NETLIFY_CLI_VERSION 
-              --tag $DOCKER_USERNAME/$DOCKER_IMAGE:$SEMAPHORE_GIT_TAG_NAME 
-              --tag $DOCKER_USERNAME/$DOCKER_IMAGE:latest
+              --tag $DOCKER_USERNAME/$DOCKER_IMAGE:prova
               --push 
               "."
