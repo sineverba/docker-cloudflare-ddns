@@ -1,4 +1,4 @@
-# Next version
+# 2.0.0
 + Refactor in typescript
 + Refactor Dockerfile + Semaphore
 + Refactor Semaphore + Docker multi build
