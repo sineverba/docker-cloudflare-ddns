@@ -1,4 +1,7 @@
-# 1.7.3
+# Next version
++ Refactor in typescript
+
+## 1.7.3
 + Fix versions
 + Fix Docker
 
