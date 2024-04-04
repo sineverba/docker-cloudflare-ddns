@@ -1,0 +1,26 @@
+{
+  "result": {
+    "id": "KuWKAaa71GZqUFedummZ4YIHapdivFQx",
+    "zone_id": "23XhtvhnUu5YdKNeRzg3BQqjx1WwF666",
+    "zone_name": "example.com",
+    "name": "subdomain.example.com",
+    "type": "A",
+    "content": "1.2.3.4",
+    "proxiable": false,
+    "proxied": false,
+    "ttl": 1,
+    "locked": false,
+    "meta": {
+      "auto_added": false,
+      "managed_by_apps": false,
+      "managed_by_argo_tunnel": false
+    },
+    "comment": null,
+    "tags": [],
+    "created_on": "2024-04-03T13:11:46.094559Z",
+    "modified_on": "2024-04-03T13:11:46.094559Z"
+  },
+  "success": true,
+  "errors": [],
+  "messages": []
+}

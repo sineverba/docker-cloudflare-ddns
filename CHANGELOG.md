@@ -1,4 +1,8 @@
-# 1.7.3
+# Next version
++ Refactor in typescript
++ Refactor Dockerfile + Semaphore
+
+## 1.7.3
 + Fix versions
 + Fix Docker
 
