@@ -12,6 +12,7 @@ global_job_config:
 
   secrets:
     - name: ACCESS_TOKENS
+    - name: VPS
 
   prologue:
     commands:
