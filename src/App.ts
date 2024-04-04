@@ -38,24 +38,61 @@ export default class App {
   }
 
   /**
-   * Browse the zones in Cloudflare
+   * Browse zones based on the provided zone name.
+   *
+   * @param zone - The name of the zone to browse.
+   * @returns A promise resolving to a page of zones matching the provided name.
    */
   browseZones = (zone: string): PagePromise<ZonesV4PagePaginationArray, Zone> =>
     this.cf().zones.list({ query: { name: zone } });
 
   /**
-   * Fetch the DNS Records for a zone (domain name) ID
+   * Retrieve DNS records for a specific zone.
+   *
+   * @param zoneId - The ID of the zone for which DNS records are to be retrieved.
+   * @returns A promise resolving to a page of DNS records for the specified zone.
    */
   getDnsRecords = (
     zoneId: string,
   ): PagePromise<DNSRecordsV4PagePaginationArray, DNSRecord> =>
     this.cf().dns.records.list({ zone_id: zoneId });
 
+  /**
+   * Add a DNS record to a specific zone.
+   *
+   *
+   * @param zoneId - The ID of the zone to which the DNS record will be added.
+   * @param record - An object representing the DNS record to be added.
+   * @returns A promise resolving to the added DNS record.
+   * @see https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-create-dns-record
+   */
   addRecord = (
     zoneId: string,
     record: IRecord,
   ): APIPromise<Cloudflare.DNS.Records.DNSRecord> =>
     this.cf().dns.records.create({
+      zone_id: zoneId,
+      content: record.content,
+      name: record.name,
+      type: "A",
+      proxied: record.proxied,
+    });
+
+  /**
+   * Update a DNS record within a specific zone.
+   *
+   * @param {string} zoneId - The identifier of the zone where the DNS record resides.
+   * @param {string} dnsRecordId - The identifier of the DNS record to be updated.
+   * @param {IRecord} record - An object containing the updated information for the DNS record.
+   * @returns {APIPromise<Cloudflare.DNS.Records.DNSRecord>} A promise representing the outcome of the record update operation.
+   * @see https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-patch-dns-record
+   */
+  updateRecord = (
+    zoneId: string,
+    dnsRecordId: string,
+    record: IRecord,
+  ): APIPromise<Cloudflare.DNS.Records.DNSRecord> =>
+    this.cf().dns.records.edit(dnsRecordId, {
       zone_id: zoneId,
       content: record.content,
       name: record.name,
