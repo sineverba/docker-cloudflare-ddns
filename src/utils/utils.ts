@@ -234,7 +234,7 @@ const handleErrors = (data: object): string =>
 
 const isIpDifferent = (
   currentPublicIp: string,
-  dnsRecord: DNSRecord,
+  dnsRecord: ISubdomain,
 ): boolean => currentPublicIp !== dnsRecord.content;
 
 export {
