@@ -53,7 +53,7 @@ multi:
 	preparemulti
 	docker buildx build \
 		--build-arg NODE_VERSION=$(NODE_VERSION) \
-		--platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7 \
+		--platform linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7 \
 		--tag $(IMAGE_NAME):$(APP_VERSION) \
 		--file dockerfiles/production/build/docker/Dockerfile \
 		"."
