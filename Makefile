@@ -2,11 +2,11 @@ include .env
 
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
-APP_VERSION=1.7.3-dev
-NODE_VERSION=20.11.0
-NPM_VERSION=10.4.0
+APP_VERSION=2.0.0-dev
+NODE_VERSION=20.12.0
+NPM_VERSION=10.5.0
 SONARSCANNER_VERSION=5.0.1
-BUILDX_VERSION=0.12.1
+BUILDX_VERSION=0.13.1
 BINFMT_VERSION=qemu-v7.0.0-28
 
 sonar:
@@ -21,7 +21,7 @@ fixnodesass:
 	npm rebuild node-sass
 
 upgrade:
-	npx ncu -u -x dotenv-flow -x msw
+	npx ncu -u
 	npx update-browserslist-db@latest
 	npm install
 	npm audit fix
@@ -44,6 +44,7 @@ preparemulti:
 build:
 	docker build \
 		--build-arg NODE_VERSION=$(NODE_VERSION) \
+		--build-arg NPM_VERSION=$(NPM_VERSION) \
 		--tag $(IMAGE_NAME):$(APP_VERSION) \
 		--file dockerfiles/production/build/docker/Dockerfile \
 		"."
@@ -52,7 +53,7 @@ multi:
 	preparemulti
 	docker buildx build \
 		--build-arg NODE_VERSION=$(NODE_VERSION) \
-		--platform linux/arm64/v8,linux/amd64,linux/arm/v6,linux/arm/v7 \
+		--platform linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7 \
 		--tag $(IMAGE_NAME):$(APP_VERSION) \
 		--file dockerfiles/production/build/docker/Dockerfile \
 		"."
@@ -93,5 +94,4 @@ stop:
 	docker container rm $(CONTAINER_NAME)
 
 destroy:
-	docker image rm node:20.11.0-alpine3.19
 	docker image rm $(IMAGE_NAME):$(APP_VERSION)

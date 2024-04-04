@@ -1,0 +1,119 @@
+{
+  "result": [
+    {
+      "id": "9HmTfQl7axVIlMQjONN2gH2KBTxP4RyQ",
+      "zone_id": "23XhtvhnUu5YdKNeRzg3BQqjx1WwF666",
+      "zone_name": "example.com",
+      "name": "example.com",
+      "type": "A",
+      "content": "1.2.3.4",
+      "proxiable": true,
+      "proxied": true,
+      "ttl": 1,
+      "locked": false,
+      "meta": {
+        "auto_added": false,
+        "managed_by_apps": false,
+        "managed_by_argo_tunnel": false
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2021-04-18T15:01:36.375385Z",
+      "modified_on": "2023-09-20T23:15:08.407456Z"
+    },
+    {
+      "id": "KuWKAaa71GZqUFedummZ4YIHapdivFQx",
+      "zone_id": "23XhtvhnUu5YdKNeRzg3BQqjx1WwF666",
+      "zone_name": "example.com",
+      "name": "subdomain.example.com",
+      "type": "A",
+      "content": "1.2.3.4",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "locked": false,
+      "meta": {
+        "auto_added": false,
+        "managed_by_apps": false,
+        "managed_by_argo_tunnel": false
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2022-03-31T09:34:12.635476Z",
+      "modified_on": "2024-01-31T19:35:06.676608Z"
+    },
+    {
+      "id": "mPsCt2oNm33343jZmWwCoJLIMPse5w7i",
+      "zone_id": "23XhtvhnUu5YdKNeRzg3BQqjx1WwF666",
+      "zone_name": "example.com",
+      "name": "*.example.com",
+      "type": "CNAME",
+      "content": "example.com",
+      "proxiable": true,
+      "proxied": true,
+      "ttl": 1,
+      "locked": false,
+      "meta": {
+        "auto_added": false,
+        "managed_by_apps": false,
+        "managed_by_argo_tunnel": false
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2022-03-21T17:43:13.494157Z",
+      "modified_on": "2022-03-21T17:43:13.494157Z"
+    },
+    {
+      "id": "p1395Uy9QJMp3sb0jWBTakgBF4qmlkye",
+      "zone_id": "23XhtvhnUu5YdKNeRzg3BQqjx1WwF666",
+      "zone_name": "example.com",
+      "name": "www.example.com",
+      "type": "CNAME",
+      "content": "example.com",
+      "proxiable": true,
+      "proxied": true,
+      "ttl": 1,
+      "locked": false,
+      "meta": {
+        "auto_added": false,
+        "managed_by_apps": false,
+        "managed_by_argo_tunnel": false
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2019-09-16T19:24:45.494876Z",
+      "modified_on": "2019-09-16T19:24:45.494876Z"
+    },
+    {
+      "id": "Vbtaic5aTn5uyLhoBiXdSNm7BBMoJiwQ",
+      "zone_id": "23XhtvhnUu5YdKNeRzg3BQqjx1WwF666",
+      "zone_name": "example.com",
+      "name": "_acme-challenge.example.com",
+      "type": "TXT",
+      "content": "akfjYoO3EQRz9GZYPPhmxPg_i-uvNLmx_bLH7muhCFc",
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 120,
+      "locked": false,
+      "meta": {
+        "auto_added": false,
+        "managed_by_apps": false,
+        "managed_by_argo_tunnel": false
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2022-04-14T11:42:23.387064Z",
+      "modified_on": "2022-04-14T11:42:23.387064Z"
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result_info": {
+    "page": 1,
+    "per_page": 100,
+    "count": 5,
+    "total_count": 5,
+    "total_pages": 1
+  }
+}
