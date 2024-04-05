@@ -22,7 +22,7 @@ async function initializeApp() {
   logger.info("App started!");
 
   // Initialize dot-env
-  dotenvFlow.config();
+  dotenvFlow.config({ silent: true });
   // Instantiate the application
   const app = new App();
 
