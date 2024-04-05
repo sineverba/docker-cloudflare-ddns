@@ -62,9 +62,3 @@ blocks:
               -e SONAR_TOKEN=$SONAR_TOKEN 
               -v $PWD:/usr/src
               sonarsource/sonar-scanner-cli:$SONARSCANNER_VERSION
-          
-promotions:
-  - name: Deploy
-    pipeline_file: build-deploy.yml
-    auto_promote:
-      when: "result = 'passed' and tag =~ '.*'"

@@ -1,4 +1,7 @@
-# 2.0.1
+# Next version
++ Use CircleCI to build images
+
+## 2.0.1
 + Silent `dot-env` if no `.env` file is provided
 
 ## 2.0.0
