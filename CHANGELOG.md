@@ -1,4 +1,7 @@
-# 2.0.0
+# 2.0.1
++ Silent `dot-env` if no `.env` file is provided
+
+## 2.0.0
 + Refactor in typescript
 + Refactor Dockerfile + Semaphore
 + Refactor Semaphore + Docker multi build
