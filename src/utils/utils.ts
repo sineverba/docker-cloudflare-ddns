@@ -8,7 +8,7 @@ import { DNSRecord } from "cloudflare/resources/dns/records.mjs";
 import { getBoolean } from "@sineverba/getboolean";
 
 // Start env file
-dotenvFlow.config();
+dotenvFlow.config({ silent: true });
 
 /**
  * Calculates the log level based on the environment variable or defaults to "debug".

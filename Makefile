@@ -2,7 +2,7 @@ include .env
 
 IMAGE_NAME=sineverba/cloudflare-ddns
 CONTAINER_NAME=cloudflare-ddns
-APP_VERSION=2.0.0-dev
+APP_VERSION=2.0.1-dev
 NODE_VERSION=20.12.0
 NPM_VERSION=10.5.0
 SONARSCANNER_VERSION=5.0.1
