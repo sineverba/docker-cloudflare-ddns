@@ -1,5 +1,6 @@
 # Next version
 + Use CircleCI to build images
++ Upgrade dependencies
 
 ## 2.0.1
 + Silent `dot-env` if no `.env` file is provided
