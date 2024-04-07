@@ -1,12 +1,18 @@
 version: 2.1
 executors:
+  docker_executor:
+    docker:
+      - image: cimg/node:20.12.1
+    resource_class: medium
+    environment:
+      NPM_VERSION: 10.5.1
   arm64_executor:
     machine:
       image: ubuntu-2204:2024.01.2
     resource_class: arm.medium
     environment:
-      NODE_VERSION: 20.12.0
-      NPM_VERSION: 10.5.0
+      NODE_VERSION: 20.12.1
+      NPM_VERSION: 10.5.1
       DOCKER_IMAGE: cloudflare-ddns
       BINFMT_VERSION: qemu-v7.0.0-28
   amd64_executor:
@@ -14,11 +20,24 @@ executors:
       image: ubuntu-2204:2024.01.2
     resource_class: medium
     environment:
-      NODE_VERSION: 20.12.0
-      NPM_VERSION: 10.5.0
+      NODE_VERSION: 20.12.1
+      NPM_VERSION: 10.5.1
       DOCKER_IMAGE: cloudflare-ddns
       BINFMT_VERSION: qemu-v7.0.0-28
 jobs:
+  test:
+    executor: docker_executor
+    steps:
+      - checkout
+      - run:
+          name: "Setup NPM version"
+          command: npm install npm@${NPM_VERSION}
+      - run:
+          name: "Setup project"
+          command: npm ci
+      - run:
+          name: "Run test"
+          command: npm run test
   build_arm64:
     executor: arm64_executor
     steps:
@@ -87,6 +106,12 @@ jobs:
 workflows:
   build_docker_images:
     jobs:
+      - test:
+          filters:
+            branches:
+              only:
+                - master
+                - develop
       - build_arm64:
           context: SECRETS
           filters:
