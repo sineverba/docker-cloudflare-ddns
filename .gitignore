@@ -2,4 +2,5 @@
 node_modules/
 coverage/
 .scannerwork/
+.test_report/
 dist/

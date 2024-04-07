@@ -17,6 +17,10 @@ global_job_config:
     commands:
       - checkout
       - npm install -g npm@$NPM_VERSION
+  epilogue:
+    always:
+      commands:
+        - '[[ -f ./.test_report/test-output.xml ]] && test-results publish ./.test_report/test-output.xml'
 
 blocks:
 
@@ -62,3 +66,10 @@ blocks:
               -e SONAR_TOKEN=$SONAR_TOKEN 
               -v $PWD:/usr/src
               sonarsource/sonar-scanner-cli:$SONARSCANNER_VERSION
+
+after_pipeline:
+  task:
+    jobs:
+      - name: "Publish Results"
+        commands:
+          - test-results gen-pipeline-report
