@@ -1,6 +1,7 @@
 # Next version
 + Use CircleCI to build images
 + Upgrade dependencies
++ Enable store test result
 
 ## 2.0.1
 + Silent `dot-env` if no `.env` file is provided
