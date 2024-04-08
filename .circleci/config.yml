@@ -24,6 +24,7 @@ executors:
       NPM_VERSION: 10.5.1
       DOCKER_IMAGE: cloudflare-ddns
       BINFMT_VERSION: qemu-v7.0.0-28
+      DELETE_TAG_TAG: 1.0.2
 jobs:
   test:
     executor: docker_executor
@@ -105,6 +106,25 @@ jobs:
             --push \
             --file dockerfiles/production/build/docker/Dockerfile \
             "."
+  delete_cache_arm:
+    executor: amd64_executor
+    steps:
+      - run:
+          name: "Login to Docker HUB"
+          command: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+      - run:
+          name: "Remove cache arm image"
+          command: |
+            docker run \
+            -it \
+            --rm \
+            --name $DOCKER_IMAGE \
+            -e DOCKER_USERNAME=$DOCKER_LOGIN \
+            -e DOCKER_PASSWORD=$DOCKER_PASSWORD \
+            -e ORGANIZATION=$DOCKER_LOGIN \
+            -e IMAGE=$DOCKER_IMAGE \
+            -e TAG=cache-arm \
+            sineverba/delete-tag:$DELETE_TAG_TAG
 workflows:
   build_docker_images:
     jobs:
@@ -130,4 +150,13 @@ workflows:
               ignore: /.*/
           requires:
             - build_arm64
+      - delete_cache_arm:
+          context: SECRETS
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+          requires:
+            - build_amd64
 
