@@ -8,7 +8,7 @@ agent:
 global_job_config:
   env_vars:
     - name: NPM_VERSION
-      value: 10.5.0
+      value: 10.5.1
     - name: SONARSCANNER_VERSION
       value: 5.0.1
   secrets:
@@ -17,6 +17,10 @@ global_job_config:
     commands:
       - checkout
       - npm install -g npm@$NPM_VERSION
+  epilogue:
+    always:
+      commands:
+        - '[[ -f ./.test_report/test-output.xml ]] && test-results publish ./.test_report/test-output.xml'
 
 blocks:
 
@@ -62,9 +66,10 @@ blocks:
               -e SONAR_TOKEN=$SONAR_TOKEN 
               -v $PWD:/usr/src
               sonarsource/sonar-scanner-cli:$SONARSCANNER_VERSION
-          
-promotions:
-  - name: Deploy
-    pipeline_file: build-deploy.yml
-    auto_promote:
-      when: "result = 'passed' and tag =~ '.*'"
+
+after_pipeline:
+  task:
+    jobs:
+      - name: "Publish Results"
+        commands:
+          - test-results gen-pipeline-report

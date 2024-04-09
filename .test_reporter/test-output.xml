@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="18" failures="0" errors="0" time="1.728">
+    <testsuite name="src/__tests__/App.test.ts" timestamp="2024-04-07T15:09:12.082Z" hostname="aavostro3510" tests="5" failures="0" errors="0" skipped="0" time="0.084">
+        <testcase classname="src/__tests__/App.test.ts" name="Test APP file &gt; Can set and get the token" time="0.001">
+        </testcase>
+        <testcase classname="src/__tests__/App.test.ts" name="Test APP file &gt; Can browse a zone" time="0.046">
+        </testcase>
+        <testcase classname="src/__tests__/App.test.ts" name="Test APP file &gt; Can get dns records" time="0.011">
+        </testcase>
+        <testcase classname="src/__tests__/App.test.ts" name="Test APP file &gt; Can add a new record" time="0.012">
+        </testcase>
+        <testcase classname="src/__tests__/App.test.ts" name="Test APP file &gt; Can update a record" time="0.01">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/utils/formatLogMessage.test.ts" timestamp="2024-04-07T15:09:12.084Z" hostname="aavostro3510" tests="1" failures="0" errors="0" skipped="0" time="0.003">
+        <testcase classname="src/__tests__/utils/formatLogMessage.test.ts" name="Test external utils &gt; Can format the log message" time="0.001">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/utils/getLogLevel.test.ts" timestamp="2024-04-07T15:09:12.085Z" hostname="aavostro3510" tests="2" failures="0" errors="0" skipped="0" time="0.004">
+        <testcase classname="src/__tests__/utils/getLogLevel.test.ts" name="Test external utils &gt; Can return debug if no process.env is specified" time="0.002">
+        </testcase>
+        <testcase classname="src/__tests__/utils/getLogLevel.test.ts" name="Test external utils &gt; Can return log level specified by process.env" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/utils/getPublicIp.test.ts" timestamp="2024-04-07T15:09:12.085Z" hostname="aavostro3510" tests="2" failures="0" errors="0" skipped="0" time="0.007">
+        <testcase classname="src/__tests__/utils/getPublicIp.test.ts" name="Test external utils &gt; Can return a public IP" time="0.001">
+        </testcase>
+        <testcase classname="src/__tests__/utils/getPublicIp.test.ts" name="Test external utils &gt; Can handles error when fetching public IP" time="0.004">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/utils/getRecord.test.ts" timestamp="2024-04-07T15:09:12.086Z" hostname="aavostro3510" tests="3" failures="0" errors="0" skipped="0" time="0.003">
+        <testcase classname="src/__tests__/utils/getRecord.test.ts" name="Test external utils &gt; Can return a record object with subdomain" time="0.001">
+        </testcase>
+        <testcase classname="src/__tests__/utils/getRecord.test.ts" name="Test external utils &gt; Can return a record object with @ as root, if no subdomain is provided" time="0.001">
+        </testcase>
+        <testcase classname="src/__tests__/utils/getRecord.test.ts" name="Test external utils &gt; Can return a record object with subdomain and proxy as false" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/utils/getSubdomain.test.ts" timestamp="2024-04-07T15:09:12.086Z" hostname="aavostro3510" tests="2" failures="0" errors="0" skipped="0" time="0.004">
+        <testcase classname="src/__tests__/utils/getSubdomain.test.ts" name="Test external utils &gt; Can return a subdomain from a list of dns records" time="0.001">
+        </testcase>
+        <testcase classname="src/__tests__/utils/getSubdomain.test.ts" name="Test external utils &gt; Can return a subdomain from a list of dns records if subdomain is equals to root zone" time="0.001">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/utils/handleErrors.test.ts" timestamp="2024-04-07T15:09:12.087Z" hostname="aavostro3510" tests="1" failures="0" errors="0" skipped="0" time="0.002">
+        <testcase classname="src/__tests__/utils/handleErrors.test.ts" name="Test external utils &gt; Can handle errors from create record" time="0.001">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/utils/isIpDifferent.test.ts" timestamp="2024-04-07T15:09:12.087Z" hostname="aavostro3510" tests="2" failures="0" errors="0" skipped="0" time="0.004">
+        <testcase classname="src/__tests__/utils/isIpDifferent.test.ts" name="Test external utils &gt; Can return true if current public IP is different from that stored in subdomain" time="0.002">
+        </testcase>
+        <testcase classname="src/__tests__/utils/isIpDifferent.test.ts" name="Test external utils &gt; Can return false if current public IP is same from that stored in subdomain" time="0">
+        </testcase>
+    </testsuite>
+</testsuites>

@@ -1,4 +1,10 @@
-# 2.0.1
+# 2.1.0
++ Use CircleCI to build images
++ Upgrade dependencies
++ Enable store test result
++ Add delete cache arm
+
+## 2.0.1
 + Silent `dot-env` if no `.env` file is provided
 
 ## 2.0.0

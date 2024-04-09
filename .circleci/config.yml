@@ -1,12 +1,33 @@
 version: 2.1
-jobs:
-
-  test:
+executors:
+  docker_executor:
     docker:
-      - image: cimg/node:20.12.0
+      - image: cimg/node:20.12.1
+    resource_class: medium
     environment:
-      NPM_VERSION: 10.5.0
-
+      NPM_VERSION: 10.5.1
+  arm64_executor:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: arm.medium
+    environment:
+      NODE_VERSION: 20.12.1
+      NPM_VERSION: 10.5.1
+      DOCKER_IMAGE: cloudflare-ddns
+      BINFMT_VERSION: qemu-v7.0.0-28
+  amd64_executor:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: medium
+    environment:
+      NODE_VERSION: 20.12.1
+      NPM_VERSION: 10.5.1
+      DOCKER_IMAGE: cloudflare-ddns
+      BINFMT_VERSION: qemu-v7.0.0-28
+      DELETE_TAG_TAG: 1.0.2
+jobs:
+  test:
+    executor: docker_executor
     steps:
       - checkout
       - run:
@@ -18,10 +39,94 @@ jobs:
       - run:
           name: "Run test"
           command: npm run test
-
+      - store_test_results:
+          path: ./.test_report
+  build_arm64:
+    executor: arm64_executor
+    steps:
+      - checkout
+      - run:
+          name: "Login to Docker HUB"
+          command: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+      - run:
+          name: "Install tonistiigi/binfmt"
+          command: docker run --rm --privileged tonistiigi/binfmt:$BINFMT_VERSION --install all
+      - run:
+          name: "Create buildx multiarch"
+          command: |
+            docker buildx create \
+            --name multiarch \
+            --use \
+            && docker buildx inspect \
+            --bootstrap \
+            --builder \
+            multiarch
+      - run:
+          name: "Build image and push to Docker HUB"
+          command: |
+            docker buildx build \
+              --cache-to=type=inline \
+              --platform linux/arm64,linux/arm/v6,linux/arm/v7 \
+              --build-arg NODE_VERSION=$NODE_VERSION \
+              --build-arg NPM_VERSION=$NPM_VERSION \
+              --tag $DOCKER_LOGIN/$DOCKER_IMAGE:cache-arm \
+              --push \
+              --file dockerfiles/production/build/docker/Dockerfile \
+              '.'
+  build_amd64:
+    executor: amd64_executor
+    steps:
+      - checkout
+      - run:
+          name: "Login to Docker HUB"
+          command: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+      - run:
+          name: "Install tonistiigi/binfmt"
+          command: docker run --rm --privileged tonistiigi/binfmt:$BINFMT_VERSION --install all
+      - run:
+          name: "Create buildx multiarch"
+          command: |
+            docker buildx create \
+            --name multiarch \
+            --use \
+            && docker buildx inspect \
+            --bootstrap \
+            --builder \
+            multiarch
+      - run:
+          name: "Build image and push to Docker HUB"
+          command: |
+            docker buildx build \
+            --cache-from type=registry,ref=$DOCKER_LOGIN/$DOCKER_IMAGE:cache-arm \
+            --platform linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7 \
+            --build-arg NODE_VERSION=$NODE_VERSION \
+            --build-arg NPM_VERSION=$NPM_VERSION \
+            --tag $DOCKER_LOGIN/$DOCKER_IMAGE:$CIRCLE_TAG \
+            --tag $DOCKER_LOGIN/$DOCKER_IMAGE:latest \
+            --push \
+            --file dockerfiles/production/build/docker/Dockerfile \
+            "."
+  delete_cache_arm:
+    executor: amd64_executor
+    steps:
+      - run:
+          name: "Login to Docker HUB"
+          command: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+      - run:
+          name: "Remove cache arm image"
+          command: |
+            docker run \
+            -it \
+            --rm \
+            --name $DOCKER_IMAGE \
+            -e DOCKER_USERNAME=$DOCKER_LOGIN \
+            -e DOCKER_PASSWORD=$DOCKER_PASSWORD \
+            -e ORGANIZATION=$DOCKER_LOGIN \
+            -e IMAGE=$DOCKER_IMAGE \
+            -e TAG=cache-arm \
+            sineverba/delete-tag:$DELETE_TAG_TAG
 workflows:
-  version: 2
-  test:
+  build_docker_images:
     jobs:
       - test:
           filters:
@@ -29,4 +134,29 @@ workflows:
               only:
                 - master
                 - develop
-                - refactor
+      - build_arm64:
+          context: SECRETS
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+      - build_amd64:
+          context: SECRETS
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+          requires:
+            - build_arm64
+      - delete_cache_arm:
+          context: SECRETS
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+          requires:
+            - build_amd64
+

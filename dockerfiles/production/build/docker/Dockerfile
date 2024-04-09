@@ -3,10 +3,9 @@
 #       TESTER
 #
 ######################################
-ARG NODE_VERSION=latest
+ARG NODE_VERSION 
 FROM node:$NODE_VERSION-alpine3.19 AS tester
-ARG NPM_VERSION=latest
-ENV NPM_VERSION $NPM_VERSION
+ARG NPM_VERSION 
 ENV CI=true
 # Add a workdir directory
 WORKDIR /app
