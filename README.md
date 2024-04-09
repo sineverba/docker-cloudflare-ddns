@@ -13,6 +13,7 @@ CREDITS: Forked from [https://github.com/oznu/docker-cloudflare-ddns](https://gi
 | Semaphore CI | [![Build Status](https://sineverba.semaphoreci.com/badges/docker-cloudflare-ddns.svg)](https://sineverba.semaphoreci.com/projects/docker-cloudflare-ddns) |
 | Sonarqube | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=docker-cloudflare-ddns&metric=alert_status)](https://sonarcloud.io/dashboard?id=docker-cloudflare-ddns) |
 | Coveralls | [![Coverage Status](https://coveralls.io/repos/github/sineverba/docker-cloudflare-ddns/badge.svg?branch=master)](https://coveralls.io/github/sineverba/docker-cloudflare-ddns?branch=master) |
+| Docker Hub | `docker pull sineverba/cloudflare-ddns:2.1.0` - [Link to image](https://hub.docker.com/r/sineverba/cloudflare-ddns) |
 
 Available architectures:
 
