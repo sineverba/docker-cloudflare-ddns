@@ -39,6 +39,7 @@ blocks:
             - cache restore
             - npm run test
             - '[[ -f ./.test_report/test-output.xml ]] && test-results publish ./.test_report/test-output.xml'
+            - test-results gen-pipeline-report
 
   - name: Coverage
     skip:
@@ -62,12 +63,3 @@ blocks:
               -e SONAR_TOKEN=$SONAR_TOKEN 
               -v $PWD:/usr/src
               sonarsource/sonar-scanner-cli:$SONARSCANNER_VERSION
-
-after_pipeline:
-  task:
-    jobs:
-      - name: "Publish Results"
-        skip:
-          when: "tag =~ '.*'"
-        commands:
-          - test-results gen-pipeline-report
