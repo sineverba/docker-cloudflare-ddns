@@ -1,4 +1,7 @@
-# 2.1.0
+# Next version
++ Fix Semaphore
+
+## 2.1.0
 + Use CircleCI to build images
 + Upgrade dependencies
 + Enable store test result

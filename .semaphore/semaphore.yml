@@ -18,7 +18,8 @@ global_job_config:
       - checkout
       - npm install -g npm@$NPM_VERSION
   epilogue:
-    always:
+    skip:
+      when: "tag =~ '.*'"
       commands:
         - '[[ -f ./.test_report/test-output.xml ]] && test-results publish ./.test_report/test-output.xml'
 
@@ -71,5 +72,7 @@ after_pipeline:
   task:
     jobs:
       - name: "Publish Results"
+        skip:
+          when: "tag =~ '.*'"
         commands:
           - test-results gen-pipeline-report
