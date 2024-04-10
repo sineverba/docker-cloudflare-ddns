@@ -17,12 +17,6 @@ global_job_config:
     commands:
       - checkout
       - npm install -g npm@$NPM_VERSION
-  epilogue:
-    skip:
-      when: "tag =~ '.*'"
-      commands:
-        - '[[ -f ./.test_report/test-output.xml ]] && test-results publish ./.test_report/test-output.xml'
-
 blocks:
 
   - name: Install dependencies
@@ -44,6 +38,7 @@ blocks:
           commands:
             - cache restore
             - npm run test
+            - '[[ -f ./.test_report/test-output.xml ]] && test-results publish ./.test_report/test-output.xml'
 
   - name: Coverage
     skip:
